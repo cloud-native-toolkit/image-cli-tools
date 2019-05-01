@@ -13,12 +13,12 @@ fi
 
 echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}"
 
-docker build -t ${DOCKER_ORG}/${IMAGE_NAME}:${IMAGE_VER} .
-docker push ${DOCKER_ORG}/${IMAGE_NAME}:${IMAGE_VER}
+docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} .
+docker push ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}
 
 if [[ -z "${NOT_LATEST}" ]]; then
    echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:latest"
-   docker build -t ${DOCKER_ORG}/${IMAGE_NAME}:latest .
-   docker push ${DOCKER_ORG}/${IMAGE_NAME}:latest
+   docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:latest .
+   docker push ${IMAGE_ORG}/${IMAGE_NAME}:latest
 fi
 
