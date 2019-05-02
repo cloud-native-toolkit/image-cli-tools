@@ -8,7 +8,7 @@
     "build": "./scripts/build.sh $npm_package_org $npm_package_name $npm_package_version",
     "push": "./scripts/publish.sh $npm_package_org $npm_package_name $npm_package_version",
     "prestart": "npm run build",
-    "start": "docker run -it $npm_package_org/$npm_package_name:$npm_package_version"
+    "start": "docker run -it $npm_package_org/$npm_package_name:$npm_package_version /bin/bash"
   },
   "repository": {
     "type": "git",

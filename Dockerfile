@@ -106,3 +106,5 @@ RUN apk add --no-cache \
     mv linux-amd64/helm /usr/local/bin/helm &&\
     rm -rf linux-amd64 &&\
     rm helm-*.tar.gz
+
+COPY src/bashrc /root/.bashrc
