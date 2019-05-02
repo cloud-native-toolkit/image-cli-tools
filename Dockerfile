@@ -119,3 +119,21 @@ COPY src/image-message /root/image-message
 RUN cat /root/image-message >> /root/.bashrc
 
 COPY src/bin/* /usr/local/bin/
+
+# Install docker
+RUN apk add --no-cache docker
+
+# Install git
+RUN apk add --no-cache git
+
+# Install node and npm
+RUN apk add --no-cache nodejs nodejs-npm
+
+# Install yo
+RUN npm i -g yo
+
+# Creating required directories and setting appropriate permissions
+# to allow `yo` to run as root
+RUN mkdir -p /root/.config/configstore && \
+    mkdir -p /root/.config/insight-nodejs && \
+    chmod g+rwx /root /root/.config /root/.config/configstore /root/.config/insight-nodejs
