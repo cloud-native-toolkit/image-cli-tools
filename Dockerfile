@@ -48,9 +48,17 @@ RUN apk add --no-cache \
     # Install Curl
     curl \
 
+    # Install build-essential
+    build-base \
+
+    # Install python
+    python \
+
+    # Install jq
+    jq \
+
     # Install VIM
     vim &&\
-
 
     ##################################
     # IBM Cloud CLI
@@ -107,4 +115,7 @@ RUN apk add --no-cache \
     rm -rf linux-amd64 &&\
     rm helm-*.tar.gz
 
-COPY src/bashrc /root/.bashrc
+COPY src/image-message /root/image-message
+RUN cat /root/image-message >> /root/.bashrc
+
+COPY src/bin/* /usr/local/bin/

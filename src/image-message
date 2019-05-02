@@ -5,3 +5,7 @@ echo -e " _/ // /_/ / /  / /  \033[1;34m/ /___/ / /_/ / /_/ / /_/ /  /\033[0m /_
 echo -e "/___/_____/_/  /_/   \033[1;34m\\____/_/\\____/\\__,_/\\__,_/\033[0m   \\____/\\__,_/_/   \\__,_/\\__, /\\___/"
 echo -e "                                                                        /____/"
 
+echo -e "\033[1;32mAvailable scripts:\033[0m"
+echo -e " > init.sh {BM_API_KEY} {REGION} {RESOURCE_GROUP} {CLUSTER_NAME}"
+echo -e " > createNamespaces.sh"
+echo -e " > installHelm.sh"
