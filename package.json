@@ -1,6 +1,6 @@
 {
   "name": "ibm-kube-terraform",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "org": "garagecatalyst",
   "description": "This repository contains a docker image to help setup an IBM Cloud Public development environment.",
   "main": "index.js",
@@ -8,7 +8,8 @@
     "build": "./scripts/build.sh $npm_package_org $npm_package_name $npm_package_version",
     "push": "./scripts/publish.sh $npm_package_org $npm_package_name $npm_package_version",
     "prestart": "npm run build",
-    "start": "docker run -it $npm_package_org/$npm_package_name:$npm_package_version /bin/bash"
+    "start": "npm run it",
+    "image": "docker run -it $npm_package_org/$npm_package_name:$npm_package_version /bin/bash"
   },
   "repository": {
     "type": "git",

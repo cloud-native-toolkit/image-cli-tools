@@ -1,22 +1,91 @@
-FROM golang:alpine
+FROM golang:stretch
 
 ENV TERRAFORM_VERSION=0.11.13
 ENV TERRAFORM_IBMCLOUD_VERSION 0.16.0
 ENV TERRAFORM_KUBERNETES_VERSION 1.5.2
 ENV TERRAFORM_HELM_VERSION 0.9.0
 ENV SUPPORTED_CALICO 3.3.1
+ENV NVM_VERSION 0.34.0
+ENV NODE_VERSION 11.12.0
 
-RUN apk add --update bash
+# Install some core libraries (build-essentials, sudo, python, curl)
+RUN apt-get update && \
+    apt-get install -y apt-transport-https && \
+    apt-get install -y gnupg gnupg2 gnupg1 && \
+    apt-get install -y build-essential && \
+    apt-get install -y python && \
+    apt-get install -y curl && \
+    apt-get install -y jq && \
+    apt-get install -y vim && \
+    apt-get install -y unzip && \
+    apt-get install -y software-properties-common && \
+    apt-get install -y sudo
+
+COPY src/bin/* /usr/local/bin/
+
+##################################
+# Calico CLI
+##################################
+
+RUN curl -O -L https://github.com/projectcalico/calicoctl/releases/download/v${SUPPORTED_CALICO}/calicoctl && \
+    mv ./calicoctl /usr/local/bin/calicoctl && \
+    chmod +x /usr/local/bin/calicoctl
+
+##################################
+# Terraform
+##################################
 
 WORKDIR $GOPATH/bin
 
 # Install Terraform
-RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip &&\
-    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip &&\
-    chmod +x terraform &&\
+RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+    chmod +x terraform && \
     rm -rf terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
-WORKDIR /root/.terraform.d/plugins
+
+##################################
+# User setup
+##################################
+
+# Configure sudoers so that sudo can be used without a password
+RUN chmod u+w /etc/sudoers && echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+ENV HOME /home/devops
+
+# Create devops user
+RUN groupadd -g 10000 devops && \
+    useradd -u 10000 -g 10000 -G sudo -d ${HOME} -m devops && \
+    usermod --password $(echo password | openssl passwd -1 -stdin) devops
+
+USER devops
+WORKDIR ${HOME}
+
+##################################
+# IBM Cloud CLI
+##################################
+
+# Install the ibmcloud cli
+RUN curl -sL https://ibm.biz/idt-installer | bash && \
+    ibmcloud config --check-version=false && \
+    ibmcloud plugin install cloud-databases
+
+# Install nvm
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v${NVM_VERSION}/install.sh | bash
+
+RUN echo 'echo "Initializing environment..."' > ${HOME}/.bashrc-ni && \
+    echo 'export NVM_DIR="${HOME}/.nvm"' >> ${HOME}/.bashrc-ni && \
+    echo '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> ${HOME}/.bashrc-ni
+
+# Set the BASH_ENV to /home/devops/.bashrc-ni so that it is executed in a
+# non-interactive shell
+ENV BASH_ENV ${HOME}/.bashrc-ni
+
+# Pre-install node v11.12.0
+RUN echo ${PWD} && . ./.bashrc-ni && nvm install "v${NODE_VERSION}" && nvm use "v${NODE_VERSION}"
+
+RUN mkdir -p ${HOME}/.terraform.d/plugins
+WORKDIR ${HOME}/.terraform.d/plugins
 
 # Install IBM Cloud Terraform Provider
 RUN wget https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v${TERRAFORM_IBMCLOUD_VERSION}/linux_amd64.zip &&\
@@ -36,104 +105,19 @@ RUN wget https://releases.hashicorp.com/terraform-provider-helm/${TERRAFORM_HELM
     chmod +x terraform-provider-helm_* &&\
     rm -rf helm_linux_amd64.zip
 
-WORKDIR /root
+WORKDIR ${HOME}
 
-# Install IBM Cloud CLI, IBM Cloud Kubernetes Service plugin, IBM Cloud Container Registry plugin, Kubernetes CLI, Calico CLI, and Helm CLI
-RUN apk add --no-cache \
-
-    ##################################
-    # Curl && Vim
-    ##################################
-
-    # Install Curl
-    curl \
-
-    # Install build-essential
-    build-base \
-
-    # Install python
-    python \
-
-    # Install jq
-    jq \
-
-    # Install VIM
-    vim &&\
-
-    ##################################
-    # IBM Cloud CLI
-    ##################################
-
-    # Install the Linux version of the IBM Cloud CLI
-    curl -fsSL https://clis.ng.bluemix.net/install/linux | sh &&\
-
-    # Install the IBM Cloud Kubernetes Service CLI
-    ibmcloud plugin install container-service &&\
-
-    # Install the IBM Cloud Container Registry CLI
-    ibmcloud plugin install container-registry &&\
-
-    # Install the IBM Cloud Databases CLI
-    ibmcloud plugin install cloud-databases &&\
-
-
-    ##################################
-    # Kubernetes CLI
-    ##################################
-
-    # Download the latest version of Kubernetes
-    curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl &&\
-
-    # Update the permissions for and the location of the Kubernetes CLI executable file
-    chmod +x ./kubectl &&\
-    mv ./kubectl /usr/local/bin/kubectl &&\
-
-
-    ##################################
-    # Calico CLI
-    ##################################
-
-    # Download the latest supported version of the Calico CLI
-    curl -O -L https://github.com/projectcalico/calicoctl/releases/download/v${SUPPORTED_CALICO}/calicoctl &&\
-
-    # Update the permissions for and the location of the Calico CLI executable file
-    mv ./calicoctl /usr/local/bin/calicoctl &&\
-    chmod +x /usr/local/bin/calicoctl &&\
-
-
-    ##################################
-    # Helm CLI
-    ##################################
-
-    # Download the latest version of the Helm CLI and unpack
-    curl -LO https://storage.googleapis.com/kubernetes-helm/helm-$(wget -qO- https://github.com/kubernetes/helm/releases | sed -n '/Latest release<\/a>/,$p' | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' |head -1)-linux-amd64.tar.gz &&\
-    tar -xvzf helm-$(wget -qO- https://github.com/kubernetes/helm/releases | sed -n '/Latest release<\/a>/,$p' | grep -oE 'v[0-9]+\.[0-9]+\.[0-9]+' |head -1)-linux-amd64.tar.gz &&\
-
-    # Update the permissions for and the location of the Helm CLI executable file
-    chmod +x linux-amd64/helm &&\
-    mv linux-amd64/helm /usr/local/bin/helm &&\
-    rm -rf linux-amd64 &&\
-    rm helm-*.tar.gz
-
-COPY src/image-message /root/image-message
-RUN cat /root/image-message >> /root/.bashrc
-
-COPY src/bin/* /usr/local/bin/
-
-# Install docker
-RUN apk add --no-cache docker
-
-# Install git
-RUN apk add --no-cache git
-
-# Install node and npm
-RUN apk add --no-cache nodejs nodejs-npm
+COPY src/image-message ./image-message
+#RUN cat /root/image-message >> /root/.bashrc-ni
+RUN cat ./image-message >> ./.bashrc
 
 # Install yo
-RUN npm i -g yo
+RUN . ./.bashrc-ni && npm i -g yo
+
+
 
 # Creating required directories and setting appropriate permissions
 # to allow `yo` to run as root
-RUN mkdir -p /root/.config/configstore && \
-    mkdir -p /root/.config/insight-nodejs && \
-    chmod g+rwx /root /root/.config /root/.config/configstore /root/.config/insight-nodejs
+#RUN mkdir -p /root/.config/configstore && \
+#    mkdir -p /root/.config/insight-nodejs && \
+#    chmod g+rwx /root /root/.config /root/.config/configstore /root/.config/insight-nodejs
