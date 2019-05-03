@@ -107,17 +107,9 @@ RUN wget https://releases.hashicorp.com/terraform-provider-helm/${TERRAFORM_HELM
 
 WORKDIR ${HOME}
 
-COPY src/image-message ./image-message
-#RUN cat /root/image-message >> /root/.bashrc-ni
-RUN cat ./image-message >> ./.bashrc
-
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
 
-
-
-# Creating required directories and setting appropriate permissions
-# to allow `yo` to run as root
-#RUN mkdir -p /root/.config/configstore && \
-#    mkdir -p /root/.config/insight-nodejs && \
-#    chmod g+rwx /root /root/.config /root/.config/configstore /root/.config/insight-nodejs
+COPY src/image-message ./image-message
+RUN cat ./image-message >> ./.bashrc-ni && \
+    cat ./image-message >> ./.bashrc
