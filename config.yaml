@@ -1,0 +1,81 @@
+schemaVersion: "2.0.0"
+commandTests:
+  - name: "terraform installation"
+    command: "which"
+    args: ["terraform"]
+    expectedOutput: ["/go/bin/terraform\n"]
+
+  - name: "terraform-provider helm plugin"
+    command: "ls"
+    args: [".terraform.d/plugins"]
+    expectedOutput: [".*terraform-provider-helm.*"]
+
+  - name: "terraform-provider kube plugin"
+    command: "ls"
+    args: [".terraform.d/plugins"]
+    expectedOutput: [".*terraform-provider-kubernetes.*"]
+
+  - name: "terraform-provider ibm plugin"
+    command: "ls"
+    args: [".terraform.d/plugins"]
+    expectedOutput: [".*terraform-provider-ibm.*"]
+
+  - name: "Calico CLI installation"
+    command: "which"
+    args: ["calicoctl"]
+    expectedOutput: ["/usr/local/bin/calicoctl\n"]
+
+  - name: "IBM Cloud CLI installation"
+    command: "which"
+    args: ["ibmcloud"]
+    expectedOutput: ["/usr/local/bin/ibmcloud\n"]
+
+  - name: "IBM Cloud container-service plugin"
+    command: "ibmcloud"
+    args: ["plugin", "list"]
+    expectedOutput: [".*container-service.*"]
+
+  - name: "IBM Cloud container-registry plugin"
+    command: "ibmcloud"
+    args: ["plugin", "list"]
+    expectedOutput: [".*container-registry.*"]
+
+  - name: "IBM Cloud cloud-databases plugin"
+    command: "ibmcloud"
+    args: ["plugin", "list"]
+    expectedOutput: [".*cloud-databases.*"]
+
+  - name: "Docker CLI installation"
+    command: "which"
+    args: ["docker"]
+    expectedOutput: ["/usr/bin/docker\n"]
+
+  - name: "Kubectl CLI installation"
+    command: "which"
+    args: ["kubectl"]
+    expectedOutput: ["/usr/local/bin/kubectl\n"]
+
+  - name: "Helm CLI installation"
+    command: "which"
+    args: ["helm"]
+    expectedOutput: ["/usr/local/bin/helm\n"]
+
+  - name: "Git installation"
+    command: "which"
+    args: ["git"]
+    expectedOutput: ["/usr/bin/git\n"]
+
+#  - name: "nvm installation"
+#    command: "which"
+#    args: ["nvm"]
+#    expectedOutput: ["/home/devops/.nvm/bin/nvm\n"]
+#
+#  - name: "node installation"
+#    command: "node"
+#    args: ["--version"]
+#    expectedOutput: ["v\\d\\d[.]\\d\\d[.]\\d\n"]
+#
+#  - name: "yo installation"
+#    command: "yo"
+#    args: ["--version"]
+#    expectedOutput: ["\\d[.]\\d[.]\\d\n"]

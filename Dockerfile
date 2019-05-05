@@ -8,9 +8,14 @@ ENV SUPPORTED_CALICO 3.3.1
 ENV NVM_VERSION 0.34.0
 ENV NODE_VERSION 11.12.0
 
+RUN apt-get update && \
+    apt install -y apt-transport-https ca-certificates curl software-properties-common
+
+RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
+    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+
 # Install some core libraries (build-essentials, sudo, python, curl)
 RUN apt-get update && \
-    apt-get install -y apt-transport-https && \
     apt-get install -y gnupg gnupg2 gnupg1 && \
     apt-get install -y build-essential && \
     apt-get install -y python && \
@@ -18,8 +23,8 @@ RUN apt-get update && \
     apt-get install -y jq && \
     apt-get install -y vim && \
     apt-get install -y unzip && \
-    apt-get install -y software-properties-common && \
-    apt-get install -y sudo
+    apt-get install -y sudo && \
+    apt-get install -y docker-ce docker-ce-cli
 
 COPY src/bin/* /usr/local/bin/
 

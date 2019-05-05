@@ -11,14 +11,14 @@ if [[ -z "${IMAGE_ORG}" ]] || [[ -z "${IMAGE_NAME}" ]] || [[ -z "${IMAGE_VER}" ]
    exit 1
 fi
 
-echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}"
+echo "Tagging and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}"
 
-docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} .
+docker tag ${IMAGE_NAME}:${IMAGE_VER} ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}
 docker push ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}
 
 if [[ -z "${NOT_LATEST}" ]]; then
-   echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:latest"
-   docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:latest .
+   echo "Tagging and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} as ${IMAGE_ORG}/${IMAGE_NAME}:latest"
+   docker tag ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} ${IMAGE_ORG}/${IMAGE_NAME}:latest
    docker push ${IMAGE_ORG}/${IMAGE_NAME}:latest
 fi
 

@@ -1,22 +1,14 @@
 #!/usr/bin/env bash
 
-IMAGE_ORG="$1"
-IMAGE_NAME="$2"
-IMAGE_VER="$3"
-NOT_LATEST="$4"
+IMAGE_NAME="$1"
+IMAGE_VER="$2"
 
-if [[ -z "${IMAGE_ORG}" ]] || [[ -z "${IMAGE_NAME}" ]] || [[ -z "${IMAGE_VER}" ]]; then
+if [[ -z "${IMAGE_NAME}" ]] || [[ -z "${IMAGE_VER}" ]]; then
    echo "Required input is missing"
-   echo "Usage: build.sh IMAGE_ORG IMAGE_NAME IMAGE_VER [NOT_LATEST]"
+   echo "Usage: build.sh IMAGE_NAME IMAGE_VER"
    exit 1
 fi
 
-echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}"
+echo "Building ${IMAGE_NAME}:${IMAGE_VER}"
 
-docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} .
-
-if [[ -z "${NOT_LATEST}" ]]; then
-   echo "Building and pushing ${IMAGE_ORG}/${IMAGE_NAME}:latest"
-   docker build -t ${IMAGE_ORG}/${IMAGE_NAME}:latest .
-fi
-
+docker build -t ${IMAGE_NAME}:${IMAGE_VER} .
