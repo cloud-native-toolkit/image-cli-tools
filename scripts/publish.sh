@@ -18,7 +18,7 @@ docker push ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER}
 
 if [[ -z "${NOT_LATEST}" ]]; then
    echo "Tagging and pushing ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} as ${IMAGE_ORG}/${IMAGE_NAME}:latest"
-   docker tag ${IMAGE_ORG}/${IMAGE_NAME}:${IMAGE_VER} ${IMAGE_ORG}/${IMAGE_NAME}:latest
+   docker tag ${IMAGE_NAME}:${IMAGE_VER} ${IMAGE_ORG}/${IMAGE_NAME}:latest
    docker push ${IMAGE_ORG}/${IMAGE_NAME}:latest
 fi
 

@@ -118,3 +118,5 @@ RUN . ./.bashrc-ni && npm i -g yo
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni && \
     cat ./image-message >> ./.bashrc
+
+ENTRYPOINT /bin/bash
