@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+SCRIPT_DIR=$(dirname $0)
+${SCRIPT_DIR}/image-banner
+
+echo -e "\033[1;32mAvailable env properties (can be overridden for individual commands):\033[0m"
+echo -e " > IBMCL_API_KEY"
+echo -e " > REGION"
+echo -e " > RESOURCE_GROUP"
+echo -e " > CLUSTER_NAME"
+echo -e " > IAAS_USERNAME"
+echo -e " > IAAS_API_KEY"
+echo -e ""
+
+echo -e "\033[1;32mAvailable tools:\033[0m"
+echo -e " > terraform (with helm, kube, and ibm provider plugins)"
+echo -e " > calicoctl"
+echo -e " > ibmcloud (with container-service, container-registry, and cloud-databases plugins)"
+echo -e " > kubectl"
+echo -e " > helm"
+echo -e " > docker"
+echo -e " > git"
+echo -e " > nvm"
+echo -e " > node (v11.12.0 currently installed)"
+echo -e " > yo"
+echo -e ""
+
+echo -e "\033[1;32mAvailable scripts:\033[0m"
+echo -e " > init.sh {BM_API_KEY} {REGION} {RESOURCE_GROUP} {CLUSTER_NAME}"
+echo -e " > createNamespaces.sh"
+echo -e " > installHelm.sh"

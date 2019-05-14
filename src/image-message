@@ -1,11 +1,5 @@
-echo -e "    ________  __  ___   \033[1;34m________                __\033[0m   ______"
-echo -e "   /  _/ __ )/  |/  /  \033[1;34m/ ____/ /___  __  ______/ /\033[0m  / ____/___ __________ _____ ____"
-echo -e "   / // __  / /|_/ /  \033[1;34m/ /   / / __ \\/ / / / __  /\033[0m  / / __/ __ \`/ ___/ __ \`/ __ \`/ _ \\"
-echo -e " _/ // /_/ / /  / /  \033[1;34m/ /___/ / /_/ / /_/ / /_/ /  /\033[0m /_/ / /_/ / /  / /_/ / /_/ /  __/"
-echo -e "/___/_____/_/  /_/   \033[1;34m\\____/_/\\____/\\__,_/\\__,_/\033[0m   \\____/\\__,_/_/   \\__,_/\\__, /\\___/"
-echo -e "                                                                        /____/"
+#!/usr/bin/env bash
 
-echo -e "\033[1;32mAvailable scripts:\033[0m"
-echo -e " > init.sh {BM_API_KEY} {REGION} {RESOURCE_GROUP} {CLUSTER_NAME}"
-echo -e " > createNamespaces.sh"
-echo -e " > installHelm.sh"
+image-banner
+
+echo -e "\033[1;34mRun 'image-help' to get a list of available tools, scripts, and ENV properties\033[0m"
