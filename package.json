@@ -1,5 +1,5 @@
 {
-  "name": "ibm-kube-terraform",
+  "name": "ibm-garage-cli-tools",
   "version": "0.0.7",
   "org": "garagecatalyst",
   "description": "This repository contains a docker image to help setup an IBM Cloud Public development environment.",

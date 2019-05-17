@@ -84,7 +84,7 @@ RUN echo 'echo "Initializing environment..."' > ${HOME}/.bashrc-ni && \
 
 # Set the BASH_ENV to /home/devops/.bashrc-ni so that it is executed in a
 # non-interactive shell
-ENV BASH_ENV ${HOME}/.bashrc-ni
+#ENV BASH_ENV ${HOME}/.bashrc-ni
 
 # Pre-install node v11.12.0
 RUN echo ${PWD} && . ./.bashrc-ni && nvm install "v${NODE_VERSION}" && nvm use "v${NODE_VERSION}"
@@ -116,7 +116,6 @@ WORKDIR ${HOME}
 RUN . ./.bashrc-ni && npm i -g yo
 
 COPY src/image-message ./image-message
-RUN cat ./image-message >> ./.bashrc-ni && \
-    cat ./image-message >> ./.bashrc
+RUN cat ./image-message >> ./.bashrc-ni
 
-ENTRYPOINT /bin/bash
+ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]

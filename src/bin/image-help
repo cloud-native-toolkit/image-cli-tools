@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
 
-SCRIPT_DIR=$(dirname $0)
-${SCRIPT_DIR}/image-banner
-
 echo -e "\033[1;32mAvailable env properties (can be overridden for individual commands):\033[0m"
 echo -e " > IBMCL_API_KEY"
 echo -e " > REGION"

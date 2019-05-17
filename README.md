@@ -1,8 +1,8 @@
-# client-tools-image
+# IBM Garage command-line tools
 
 This repository contains a docker image to help setup an IBM Cloud Public development environment. The built image
 contains the following tools:
-- terraform cligit 
+- terraform cli
 - terraform plugins:
   - terraform-provider-helm
   - terraform-provider-kube
