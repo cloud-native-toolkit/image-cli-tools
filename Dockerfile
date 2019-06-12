@@ -66,6 +66,9 @@ RUN groupadd -g 10000 devops && \
 USER devops
 WORKDIR ${HOME}
 
+COPY src/chart/* ${HOME}/chart
+COPY src/etc/* ${HOME}/etc
+
 ##################################
 # IBM Cloud CLI
 ##################################
@@ -114,10 +117,11 @@ WORKDIR ${HOME}
 
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
+RUN . ./.bashrc-ni && npm i -g @garage-catalyst/jenkins-token-gen@0.9.3
 
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN sudo apt autoremove && sudo apt clean
+RUN sudo apt-get autoremove && sudo apt-get clean
 
 ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]
