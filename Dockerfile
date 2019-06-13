@@ -66,7 +66,6 @@ RUN groupadd -g 10000 devops && \
 USER devops
 WORKDIR ${HOME}
 
-COPY src/chart/* ${HOME}/chart
 COPY src/etc/* ${HOME}/etc
 
 ##################################
