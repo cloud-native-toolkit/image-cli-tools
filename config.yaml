@@ -80,3 +80,8 @@ commandTests:
 #    command: "yo"
 #    args: ["--version"]
 #    expectedOutput: ["\\d[.]\\d[.]\\d\n"]
+
+fileExistenceTests:
+  - name: 'jenkins-config-template.xml'
+    path: '/home/devops/etc'
+    shouldExist: true

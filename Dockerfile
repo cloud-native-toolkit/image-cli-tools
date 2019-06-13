@@ -66,7 +66,7 @@ RUN groupadd -g 10000 devops && \
 USER devops
 WORKDIR ${HOME}
 
-COPY src/etc/* ${HOME}/etc
+COPY src/etc/* ${HOME}/etc/*
 
 ##################################
 # IBM Cloud CLI

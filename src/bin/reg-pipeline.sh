@@ -21,10 +21,8 @@ if [[ "${GIT_BRANCH}" != "master" ]]; then
     JOB_NAME="${JOB_NAME}_${GIT_BRANCH}"
 fi
 
-CONFIG_URL=file://${HOME}/etc/${CONFIG_FILE}
-
 CRUMB=$(curl -s "${JENKINS_HOST}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)" -u "${USER_NAME}:${API_TOKEN}")
-curl ${CONFIG_URL} | \
+cat ${HOME}/etc/jenkins-config-template.xml | \
     sed "s~{{GIT_REPO}}~${GIT_REPO}~g" | \
     sed "s~{{GIT_CREDENTIALS}}~${GIT_CREDENTIALS}~g" | \
     sed "s~{{GIT_BRANCH}}~${GIT_BRANCH}~g" | \
