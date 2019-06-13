@@ -117,7 +117,7 @@ WORKDIR ${HOME}
 
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
-RUN . ./.bashrc-ni && npm i -g @garage-catalyst/jenkins-token-gen@0.9.3
+RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli@0.0.25
 
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
