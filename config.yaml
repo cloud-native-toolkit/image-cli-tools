@@ -2,39 +2,24 @@ schemaVersion: "2.0.0"
 
 commandTests:
   - name: "terraform installation"
-    command: "which"
-    args: ["terraform"]
-    expectedOutput: ["/go/bin/terraform\n"]
-
-  - name: "terraform-provider helm plugin"
-    command: "ls"
-    args: [".terraform.d/plugins"]
-    expectedOutput: [".*terraform-provider-helm.*"]
-
-  - name: "terraform-provider kube plugin"
-    command: "ls"
-    args: [".terraform.d/plugins"]
-    expectedOutput: [".*terraform-provider-kubernetes.*"]
-
-  - name: "terraform-provider ibm plugin"
-    command: "ls"
-    args: [".terraform.d/plugins"]
-    expectedOutput: [".*terraform-provider-ibm.*"]
+    command: "terraform"
+    args: ["--help"]
+    expectedOutput: ["Usage: terraform.*"]
 
   - name: "Calico CLI installation"
-    command: "which"
-    args: ["calicoctl"]
-    expectedOutput: ["/usr/local/bin/calicoctl\n"]
+    command: "calicoctl"
+    args: ["--help"]
+    expectedOutput: ["Usage:\n.*calicoctl.*"]
 
   - name: "IBM Cloud CLI installation"
-    command: "which"
-    args: ["ibmcloud"]
-    expectedOutput: ["/usr/local/bin/ibmcloud\n"]
+    command: "ibmcloud"
+    args: ["--help"]
+    expectedOutput: ["NAME:\n.*ibmcloud.*"]
 
   - name: "IBM Cloud container-service plugin"
     command: "ibmcloud"
     args: ["plugin", "list"]
-    expectedOutput: [".*container-service.*"]
+    expectedOutput: [".*container-service/kubernetes-service.*"]
 
   - name: "IBM Cloud container-registry plugin"
     command: "ibmcloud"
@@ -46,25 +31,25 @@ commandTests:
     args: ["plugin", "list"]
     expectedOutput: [".*cloud-databases.*"]
 
-  - name: "Docker CLI installation"
-    command: "which"
-    args: ["docker"]
-    expectedOutput: ["/usr/bin/docker\n"]
-
   - name: "Kubectl CLI installation"
-    command: "which"
-    args: ["kubectl"]
-    expectedOutput: ["/usr/local/bin/kubectl\n"]
+    command: "kubectl"
+    args: ["version", "--client=true"]
+    expectedOutput: ["Client Version.*"]
 
   - name: "Helm CLI installation"
-    command: "which"
-    args: ["helm"]
-    expectedOutput: ["/usr/local/bin/helm\n"]
+    command: "helm"
+    args: ["version", "-c"]
+    expectedOutput: ["Client.*"]
 
   - name: "Git installation"
-    command: "which"
-    args: ["git"]
-    expectedOutput: ["/usr/bin/git\n"]
+    command: "git"
+    args: ["version"]
+    expectedOutput: ["git version.*"]
+
+#  - name: "Docker CLI installation"
+#    command: "docker"
+#    args: ["--help"]
+#    expectedOutput: ["Usage:.*docker.*"]
 
 #  - name: "nvm installation"
 #    command: "which"
@@ -84,4 +69,16 @@ commandTests:
 fileExistenceTests:
   - name: 'jenkins-config-template.xml'
     path: '/home/devops/etc'
+    shouldExist: true
+
+  - name: "terraform-provider-helm.*"
+    path: "/home/devops/.terraform.d/plugins"
+    shouldExist: true
+
+  - name: "terraform-provider-kubernetes.*"
+    path: "/home/devops/.terraform.d/plugins"
+    shouldExist: true
+
+  - name: "terraform-provider-ibm.*"
+    path: "/home/devops/.terraform.d/plugins"
     shouldExist: true

@@ -21,8 +21,10 @@ if [[ "${GIT_BRANCH}" != "master" ]]; then
     JOB_NAME="${JOB_NAME}_${GIT_BRANCH}"
 fi
 
+echo "Registering ${JOB_NAME} for ${GIT_REPO} with ${JENKINS_HOST} as ${USER_NAME}"
+
 CRUMB=$(curl -s "${JENKINS_HOST}/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,\":\",//crumb)" -u "${USER_NAME}:${API_TOKEN}")
-cat ${HOME}/etc/jenkins-config-template.xml | \
+cat /home/devops/etc/jenkins-config-template.xml | \
     sed "s~{{GIT_REPO}}~${GIT_REPO}~g" | \
     sed "s~{{GIT_CREDENTIALS}}~${GIT_CREDENTIALS}~g" | \
     sed "s~{{GIT_BRANCH}}~${GIT_BRANCH}~g" | \
