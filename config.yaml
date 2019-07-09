@@ -93,3 +93,7 @@ fileExistenceTests:
   - name: 'setup-namespace-pull-secrets.sh'
     path: '/usr/local/bin'
     shouldExist: true
+
+  - name: 'checkPodRunning.sh'
+    path: '/usr/local/bin'
+    shouldExist: true

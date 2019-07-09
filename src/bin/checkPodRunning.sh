@@ -1,5 +1,21 @@
 #!/usr/bin/env bash
 
+NAME="$1"
+
+if [[ -z "${NAME}" ]]; then
+    echo "NAME not provided"
+    exit 1
+fi
+
+if [[ "${NAME}" == "--help" ]]; then
+    echo "Usage: ${0} {POD_NAME}"
+    exit 1
+fi
+
+if [[ -z "${NAMESPACE}" ]]; then
+    NAMESPACE="tools"
+fi
+
 if [[ -z "${KUBECONFIG}" ]]; then
   if [[ -z "${APIKEY}" ]] || [[ -z "${RESOURCE_GROUP}" ]] || [[ -z "${REGION}" ]]; then
     echo "Either KUBECONFIG or APIKEY, RESOURCE_GROUP, and REGION are required"
@@ -23,20 +39,14 @@ if [[ -z "${KUBECONFIG}" ]]; then
   ibmcloud ks cluster-config --cluster ${CLUSTER_NAME} --export > ${TMP_DIR}/.kubeconfig
 
   source ${TMP_DIR}/.kubeconfig
-else
-  if [[ -z "${CLUSTER_NAME}" ]]; then
-    if [[ -z "${RESOURCE_GROUP}" ]]; then
-      RESOURCE_GROUP=$(ibmcloud target | grep "Resource group" | sed -E "s/Resource group: +([^ ]+) +/\1/g")
-    fi
-
-    CLUSTER_NAME="${RESOURCE_GROUP}-cluster"
-  fi
 fi
 
-if [[ $(kubectl get secrets -n default -o jsonpath='{ range .items[*] }{ .metadata.name }{ "\n" }{ end }' | grep icr | wc -l | xargs) -eq 0 ]]; then
-    echo "Applying pull secrets to default namespace of cluster: ${CLUSTER_NAME}"
+POD_NAME=$(kubectl get pods -n ${NAMESPACE} | grep -m 1 "${NAME}" | sed -E "s/([a-zA-Z0-9-]+) +.*/\1/g")
 
-    ibmcloud ks cluster-pull-secret-apply --cluster "${CLUSTER_NAME}"
+STATUS=$(kubectl get pod/${POD_NAME} -n ${NAMESPACE} -o jsonpath="{ .status.phase }")
+
+if [[ "Running" == "${STATUS}" ]]; then
+    exit 0
 else
-    echo "Nothing to do... Secrets already applied to default namespace of cluster: ${CLUSTER_NAME}"
+    exit 1
 fi

@@ -26,8 +26,6 @@ RUN apt-get update && \
     apt-get install -y sudo && \
     apt-get install -y docker-ce docker-ce-cli
 
-COPY src/bin/* /usr/local/bin/
-
 ##################################
 # Calico CLI
 ##################################
@@ -48,6 +46,7 @@ RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform
     chmod +x terraform && \
     rm -rf terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 
+COPY src/bin/* /usr/local/bin/
 
 ##################################
 # User setup
