@@ -85,3 +85,11 @@ fileExistenceTests:
   - name: 'jenkins-config-template.xml'
     path: '/home/devops/etc'
     shouldExist: true
+
+  - name: 'cluster-pull-secret-apply.sh'
+    path: '/usr/local/bin'
+    shouldExist: true
+
+  - name: 'setup-namespace-pull-secrets.sh'
+    path: '/usr/local/bin'
+    shouldExist: true
