@@ -131,6 +131,8 @@ RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli@0.0.25
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
+RUN sudo apt-get install -y postgresql-client
+
 RUN sudo apt-get autoremove && sudo apt-get clean
 
 ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]
