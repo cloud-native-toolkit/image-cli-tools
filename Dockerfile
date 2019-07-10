@@ -34,6 +34,17 @@ RUN curl -O -L https://github.com/projectcalico/calicoctl/releases/download/v${S
     mv ./calicoctl /usr/local/bin/calicoctl && \
     chmod +x /usr/local/bin/calicoctl
 
+# Kustomize
+
+RUN opsys=linux && \
+    curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+      grep browser_download |\
+      grep $opsys |\
+      cut -d '"' -f 4 |\
+      xargs curl -O -L &&\
+    mv kustomize_*_${opsys}_amd64 /usr/local/bin/kustomize && \
+    chmod +x /usr/local/bin/kustomize
+
 ##################################
 # Terraform
 ##################################

@@ -14,6 +14,7 @@ echo -e " > \033[1;38mterraform\033[0m (with helm, kube, and ibm provider plugin
 echo -e " > \033[1;38mcalicoctl\033[0m"
 echo -e " > \033[1;38mibmcloud\033[0m (with container-service, container-registry, and cloud-databases plugins)"
 echo -e " > \033[1;38mkubectl\033[0m"
+echo -e " > \033[1;38mkustomize\033[0m"
 echo -e " > \033[1;38mhelm\033[0m"
 echo -e " > \033[1;38mdocker\033[0m"
 echo -e " > \033[1;38mgit\033[0m"

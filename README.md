@@ -15,6 +15,7 @@ contains the following tools:
   - cloud-databases
 - docker cli
 - kubectl cli
+- kustomize cli
 - helm cli
 - git cli
 - nvm cli
@@ -26,6 +27,10 @@ Helper scripts have also been provided in the image:
 - init.sh
 - createNamespaces.sh
 - installHelm.sh
+- cluster-pull-secret-apply.sh
+- setup-namespace-pull-secrets.sh
+- checkPodRunning.sh
+- copy-secret-to-namespace.sh
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
