@@ -39,11 +39,6 @@ commandTests:
     args: ["plugin", "list"]
     expectedOutput: [".*cloud-databases.*"]
 
-  - name: "Docker CLI installation"
-    command: "docker"
-    args: ["--help"]
-    expectedOutput: [".*Usage:.*docker.*"]
-
   - name: "Kubectl CLI installation"
     command: "kubectl"
     args: ["--help"]
@@ -68,6 +63,11 @@ commandTests:
     command: "createdb"
     args: ["--help"]
     expectedOutput: ["createdb creates a PostgreSQL database.*"]
+
+#  - name: "Docker CLI installation"
+#    command: "docker"
+#    args: ["--help"]
+#    expectedOutput: ["Usage:.*docker.*"]
 
 #  - name: "nvm installation"
 #    setup: [["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]]
