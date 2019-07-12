@@ -4,7 +4,7 @@ realpath() {
     [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
 }
 
-SCRIPT_DIR=$(realpath $(basename $0))
+SCRIPT_DIR=$(realpath $(dirname $0))
 
 IMAGE_NAME="$1"
 IMAGE_VER="$2"
