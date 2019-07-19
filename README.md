@@ -16,6 +16,7 @@ contains the following tools:
 - docker cli
 - kubectl cli
 - kustomize cli
+- openshift (oc) cli 
 - helm cli
 - git cli
 - nvm cli
