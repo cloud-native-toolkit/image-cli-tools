@@ -64,10 +64,10 @@ commandTests:
     args: ["--help"]
     expectedOutput: ["createdb creates a PostgreSQL database.*"]
 
-#  - name: "Docker CLI installation"
-#    command: "docker"
-#    args: ["--help"]
-#    expectedOutput: ["Usage:.*docker.*"]
+  - name: "OpenShift client installation"
+    command: "oc"
+    args: ["--help"]
+    expectedOutput: [".*OpenShift.*"]
 
 #  - name: "nvm installation"
 #    setup: [["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]]
