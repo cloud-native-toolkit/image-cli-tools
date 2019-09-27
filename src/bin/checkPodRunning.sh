@@ -41,7 +41,11 @@ if [[ -z "${KUBECONFIG}" ]]; then
   source ${TMP_DIR}/.kubeconfig
 fi
 
-POD_NAME=$(kubectl get pods -n ${NAMESPACE} | grep -m 1 "${NAME}" | sed -E "s/([a-zA-Z0-9-]+) +.*/\1/g")
+if [[ -z "${MY_POD_NAME}" ]]; then
+    MY_POD_NAME="MY_POD_NAME"
+fi
+
+POD_NAME=$(kubectl get pods -n ${NAMESPACE} | grep -v "${MY_POD_NAME}" | grep -m 1 "${NAME}" | sed -E "s/([a-zA-Z0-9-]+) +.*/\1/g")
 
 STATUS=$(kubectl get pod/${POD_NAME} -n ${NAMESPACE} -o jsonpath="{ .status.phase }")
 
