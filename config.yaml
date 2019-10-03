@@ -39,11 +39,6 @@ commandTests:
     args: ["plugin", "list"]
     expectedOutput: [".*cloud-databases.*"]
 
-  - name: "Docker CLI installation"
-    command: "docker"
-    args: ["--help"]
-    expectedOutput: [".*Usage:.*docker.*"]
-
   - name: "Kubectl CLI installation"
     command: "kubectl"
     args: ["--help"]

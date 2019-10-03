@@ -1,30 +1,18 @@
-FROM golang:stretch
+FROM registry.access.redhat.com/ubi8/ubi
 
-ENV TERRAFORM_VERSION=0.11.13
-ENV TERRAFORM_IBMCLOUD_VERSION 0.16.1
-ENV TERRAFORM_KUBERNETES_VERSION 1.5.2
-ENV TERRAFORM_HELM_VERSION 0.9.0
-ENV SUPPORTED_CALICO 3.3.1
+ENV TERRAFORM_VERSION=0.11.14
+ENV TERRAFORM_IBMCLOUD_VERSION 0.17.1
+ENV TERRAFORM_KUBERNETES_VERSION 1.7.0
+ENV TERRAFORM_HELM_VERSION 0.10.0
+ENV SUPPORTED_CALICO 3.6.3
 ENV NVM_VERSION 0.34.0
 ENV NODE_VERSION 11.12.0
 
-RUN apt-get update && \
-    apt install -y apt-transport-https ca-certificates curl software-properties-common
-
-RUN curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add - && \
-    add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-
-# Install some core libraries (build-essentials, sudo, python, curl)
-RUN apt-get update && \
-    apt-get install -y gnupg gnupg2 gnupg1 && \
-    apt-get install -y build-essential && \
-    apt-get install -y python && \
-    apt-get install -y curl && \
-    apt-get install -y jq && \
-    apt-get install -y vim && \
-    apt-get install -y unzip && \
-    apt-get install -y sudo && \
-    apt-get install -y docker-ce docker-ce-cli
+RUN dnf install -y dnf-plugins-core --disableplugin=subscription-manager && \
+    dnf install -y golang --disableplugin=subscription-manager && \
+    dnf install -y sudo --disableplugin=subscription-manager && \
+    dnf install -y unzip --disableplugin=subscription-manager && \
+    dnf install -y openssl --disableplugin=subscription-manager
 
 ##################################
 # Calico CLI
@@ -52,7 +40,7 @@ RUN opsys=linux && \
 WORKDIR $GOPATH/bin
 
 # Install Terraform
-RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
+RUN curl -O -L https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip && \
     chmod +x terraform && \
     rm -rf terraform_${TERRAFORM_VERSION}_linux_amd64.zip
@@ -69,14 +57,15 @@ RUN chmod u+w /etc/sudoers && echo "%sudo   ALL=(ALL) NOPASSWD:ALL" >> /etc/sudo
 ENV HOME /home/devops
 
 # Create devops user
-RUN groupadd -g 10000 devops && \
+RUN groupadd --force sudo && \
+    groupadd -g 10000 devops && \
     useradd -u 10000 -g 10000 -G sudo -d ${HOME} -m devops && \
     usermod --password $(echo password | openssl passwd -1 -stdin) devops
 
 USER devops
 WORKDIR ${HOME}
 
-COPY src/etc/* ${HOME}/etc/*
+COPY src/etc/* ${HOME}/etc/
 
 ##################################
 # IBM Cloud CLI
@@ -105,19 +94,19 @@ RUN mkdir -p ${HOME}/.terraform.d/plugins
 WORKDIR ${HOME}/.terraform.d/plugins
 
 # Install IBM Cloud Terraform Provider
-RUN wget https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v${TERRAFORM_IBMCLOUD_VERSION}/linux_amd64.zip &&\
-    unzip linux_amd64.zip &&\
+RUN curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v${TERRAFORM_IBMCLOUD_VERSION}/linux_amd64.zip &&\
+    unzip linux_amd64.zip && \
     chmod +x terraform-provider-ibm_* &&\
     rm -rf linux_amd64.zip
 
 # Install Kubernetes Terraform Provider
-RUN wget https://releases.hashicorp.com/terraform-provider-kubernetes/${TERRAFORM_KUBERNETES_VERSION}/terraform-provider-kubernetes_${TERRAFORM_KUBERNETES_VERSION}_linux_amd64.zip -O kube_linux_amd64.zip &&\
-    unzip kube_linux_amd64.zip &&\
-    chmod +x terraform-provider-kubernetes_* &&\
+RUN curl -L https://releases.hashicorp.com/terraform-provider-kubernetes/${TERRAFORM_KUBERNETES_VERSION}/terraform-provider-kubernetes_${TERRAFORM_KUBERNETES_VERSION}_linux_amd64.zip --output kube_linux_amd64.zip && \
+    unzip kube_linux_amd64.zip && \
+    chmod +x terraform-provider-kubernetes_* && \
     rm -rf kube_linux_amd64.zip
 
 # Install Helm Terraform Provider
-RUN wget https://releases.hashicorp.com/terraform-provider-helm/${TERRAFORM_HELM_VERSION}/terraform-provider-helm_${TERRAFORM_HELM_VERSION}_linux_amd64.zip -O helm_linux_amd64.zip &&\
+RUN curl -L https://releases.hashicorp.com/terraform-provider-helm/${TERRAFORM_HELM_VERSION}/terraform-provider-helm_${TERRAFORM_HELM_VERSION}_linux_amd64.zip --output helm_linux_amd64.zip &&\
     unzip helm_linux_amd64.zip &&\
     chmod +x terraform-provider-helm_* &&\
     rm -rf helm_linux_amd64.zip
@@ -126,14 +115,21 @@ WORKDIR ${HOME}
 
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
-RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli@0.0.25
+RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli
 
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN sudo apt-get install -y postgresql-client
+RUN sudo dnf install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-8-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
+    sudo dnf install -y postgresql10
 
-RUN sudo apt-get autoremove && sudo apt-get clean
+RUN sudo dnf clean all
+
+RUN curl -L https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz --output oc-client.tar.gz && \
+    tar xzf oc-client.tar.gz && \
+    sudo cp openshift-origin-client-tools*/oc /usr/local/bin && \
+    sudo chmod +x /usr/local/bin/oc && \
+    rm -rf openshift-origin-client-tools*
 
 RUN wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz -O oc-client.tar.gz && \
     tar xzf oc-client.tar.gz && \
