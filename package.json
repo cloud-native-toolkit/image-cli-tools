@@ -1,6 +1,6 @@
 {
   "name": "ibm-garage-cli-tools",
-  "version": "0.0.22",
+  "version": "0.0.23",
   "org": "garagecatalyst",
   "branch": "",
   "description": "This repository contains a docker image to help setup an IBM Cloud Public development environment.",
