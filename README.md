@@ -39,9 +39,47 @@ Helper scripts have also been provided in the image:
 
 ### Prerequisites
 
-To use/build this image the following tools are required:
+To run this image, the following tools are required:
 
-- `Docker` - kinda obvious but since we are building, testing and running a Docker image you need to have
+- `Docker` - kinda obvious, but since we are running a Docker image, you need to have the tool available
+
+### Running the image
+
+- To run the image:
+
+    ```bash
+    docker run -itd --name icclient garagecatalyst/ibm-garage-cli-tools
+    ```
+
+    This  assumes the image's default name, `ibm-garage-cli-tools`.
+
+Once the `icclient` container is running:
+
+- To use the client, exec shell into the container:
+
+    ```bash
+    docker attach icclient
+    ```
+
+- To exit the client without stopping it:
+
+    - From the command line, press `CTRL-p` then `CTRL-q`.
+
+If the container stops:
+
+- To run the container again:
+
+    ```bash
+    docker start icclient
+    ```
+
+## Development
+
+### Prerequisites
+
+To use/build this image, the following tools are required:
+
+- `Docker` - kinda obvious, but since we are building, testing and running a Docker image, you need to have
 the tool available
 - `node/npm` - (optional) used to consolidate the configuration and scripts for working with the image, it
 is **highly** recommended that `npm` is used; however, it is possible to run the scripts directly by looking
@@ -67,8 +105,6 @@ After that, start the image in an interactive terminal with:
 ```bash
 npm start
 ```
-
-## Development
 
 ### File Layout
 
