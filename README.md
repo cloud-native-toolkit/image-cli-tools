@@ -43,9 +43,11 @@ To run this image, the following tools are required:
 
 - `Docker` - kinda obvious, but since we are running a Docker image, you need to have the tool available
 
-### Running the image
+### Running the client
 
-- To run the image:
+Start the client to use it.
+
+- To run the `icclient` container:
 
     ```bash
     docker run -itd --name icclient garagecatalyst/ibm-garage-cli-tools
@@ -53,25 +55,38 @@ To run this image, the following tools are required:
 
     This  assumes the image's default name, `ibm-garage-cli-tools`.
 
-Once the `icclient` container is running:
+Once the client is running in the backgroud, use it by opening a shell in it:
 
-- To use the client, exec shell into the container:
+- To use the `icclient` container, exec shell into it:
 
     ```bash
-    docker attach icclient
+    docker exec -it icclient /bin/bash
     ```
 
-- To exit the client without stopping it:
+    Your terminal is now in the container. 
 
-    - From the command line, press `CTRL-p` then `CTRL-q`.
+Use this shell to run commands using the installed CLIs.
 
-If the container stops:
+When you're finished running commands, to exit the client.
 
-- To run the container again:
+- To leave the `icclient` container shell, like any shell:
+
+    ```bash
+    exit
+    ```
+
+    The container will keep running after you exit its shell.
+
+If the client stops:
+
+- To run the `icclient` container again:
 
     ```bash
     docker start icclient
     ```
+
+The `icclient` container is just a Docker container, so all [Docker CLI commands](https://docs.docker.com/engine/reference/commandline/cli/) work.
+
 
 ## Development
 
