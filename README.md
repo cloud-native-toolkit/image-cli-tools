@@ -1,7 +1,7 @@
 # IBM Garage command-line tools
 
-This repository contains a docker image to help setup an IBM Cloud Public development environment. The built image
-contains the following tools:
+This repository builds a Docker image whose container is a client for using IBM Cloud.
+The container includes the following tools:
 - terraform cli
 - terraform plugins:
   - terraform-provider-helm
@@ -24,7 +24,7 @@ contains the following tools:
 - npm cli
 - yeoman (yo) cli
 
-Helper scripts have also been provided in the image:
+The container also includes the following helper scripts:
 - init.sh
 - createNamespaces.sh
 - installHelm.sh
@@ -87,6 +87,44 @@ If the client stops:
 
 The `icclient` container is just a Docker container, so all [Docker CLI commands](https://docs.docker.com/engine/reference/commandline/cli/) work.
 
+### Using the client
+
+From a client shell, run `image-help` to get a list of available tools, scripts, and ENV properties:
+
+```bash
+$ image-help
+Available env properties (can be overridden for individual commands):
+ > BM_API_KEY - the IBM Cloud api key
+ > REGION - the IBM Cloud region (e.g. us-south)
+ > RESOURCE_GROUP - the IBM Cloud resource group
+ > CLUSTER_NAME - the name of the kubernetes cluster in IBM Cloud
+ > SL_USERNAME - the Classic Infrastructure user name or API user name (e.g. 282165_joe@us.ibm.com)
+ > SL_API_KEY - the Classic Infrastructure api key
+
+Available tools:
+ > terraform (with helm, kube, and ibm provider plugins)
+ > calicoctl
+ > ibmcloud (with container-service, container-registry, and cloud-databases plugins)
+ > kubectl
+ > kustomize
+ > oc
+ > helm
+ > docker
+ > git
+ > nvm
+ > node (v11.12.0 currently installed)
+ > yo
+
+Available scripts:
+ > init.sh {BM_API_KEY} {REGION} {RESOURCE_GROUP} {CLUSTER_NAME}
+ > createNamespaces.sh
+ > deleteNamespace.sh
+ > installHelm.sh
+ > cluster-pull-secret-apply.sh
+ > setup-namespace-pull-secrets.sh
+ > checkPodRunning.sh
+ > copy-secret-to-namespace.sh
+```
 
 ## Development
 
