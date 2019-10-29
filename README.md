@@ -55,7 +55,7 @@ Start the client to use it.
 
     This  assumes the image's default name, `ibm-garage-cli-tools`.
 
-Once the client is running in the backgroud, use it by opening a shell in it:
+Once the client is running in the backgroud, use it by opening a shell in it.
 
 - To use the `icclient` container, exec shell into it:
 
@@ -65,11 +65,11 @@ Once the client is running in the backgroud, use it by opening a shell in it:
 
     Your terminal is now in the container. 
 
-Use this shell to run commands using the installed CLIs.
+Use this shell to run commands using the installed tools and scripts.
 
 When you're finished running commands, to exit the client.
 
-- To leave the `icclient` container shell, like any shell:
+- To leave the `icclient` container shell, as with any shell:
 
     ```bash
     exit
