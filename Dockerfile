@@ -25,12 +25,15 @@ RUN curl -O -L https://github.com/projectcalico/calicoctl/releases/download/v${S
 # Kustomize
 
 RUN opsys=linux && \
-    curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases/latest |\
+    curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
       grep browser_download |\
       grep $opsys |\
       cut -d '"' -f 4 |\
-      xargs curl -O -L &&\
-    mv kustomize_*_${opsys}_amd64 /usr/local/bin/kustomize && \
+      grep /kustomize/v |\
+      sort | tail -n 1 |\
+      xargs curl -O -L && \
+    tar xzf ./kustomize_v*_${opsys}_amd64.tar.gz && \
+    mv kustomize /usr/local/bin/kustomize && \
     chmod +x /usr/local/bin/kustomize
 
 ##################################
