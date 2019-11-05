@@ -22,6 +22,7 @@ The container includes the following tools:
 - nvm cli
 - node cli
 - npm cli
+- solsa cli
 - yeoman (yo) cli
 
 The container also includes the following helper scripts:
@@ -113,6 +114,7 @@ Available tools:
  > git
  > nvm
  > node (v11.12.0 currently installed)
+ > solsa
  > yo
 
 Available scripts:

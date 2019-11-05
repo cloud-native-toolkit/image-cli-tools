@@ -80,6 +80,11 @@ commandTests:
 #    args: ["--help"]
 #    expectedOutput: ["v\\d\\d[.]\\d\\d[.]\\d\n"]
 
+  - name: "SolSA CLI installation"
+    command: "bash"
+    args: ["-c", "source /home/devops/.nvm/nvm.sh && solsa help"]
+    expectedError: ["Usage:\n.*solsa <command> <solution> \\[flags\\].*"]
+
 #  - name: "yo installation"
 #    command: "yo"
 #    args: ["--help"]

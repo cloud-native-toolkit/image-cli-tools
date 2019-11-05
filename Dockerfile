@@ -7,6 +7,7 @@ ENV TERRAFORM_HELM_VERSION 0.10.2
 ENV SUPPORTED_CALICO 3.9.1
 ENV NVM_VERSION 0.35.0
 ENV NODE_VERSION 11.12.0
+ENV SOLSA_VERSION 0.3.5
 
 RUN dnf install -y dnf-plugins-core --disableplugin=subscription-manager && \
     dnf install -y golang --disableplugin=subscription-manager && \
@@ -119,6 +120,9 @@ WORKDIR ${HOME}
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
 RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli
+
+# Install solsa
+RUN . ./.bashrc-ni && npm i -g solsa@${SOLSA_VERSION}
 
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
