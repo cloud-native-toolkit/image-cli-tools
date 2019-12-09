@@ -59,10 +59,10 @@ commandTests:
     args: ["--help"]
     expectedOutput: ["usage: git.*"]
 
-  - name: "Postgres installation"
-    command: "createdb"
-    args: ["--help"]
-    expectedOutput: ["createdb creates a PostgreSQL database.*"]
+  # - name: "Postgres installation"
+  #   command: "createdb"
+  #   args: ["--help"]
+  #   expectedOutput: ["createdb creates a PostgreSQL database.*"]
 
   - name: "OpenShift client installation"
     command: "oc"
