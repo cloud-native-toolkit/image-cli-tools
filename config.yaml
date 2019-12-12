@@ -69,6 +69,21 @@ commandTests:
     args: ["--help"]
     expectedOutput: [".*OpenShift.*"]
 
+  - name: "python"
+    command: "python"
+    args: ["--help"]
+    expectedOutput: [".*python.*"]
+
+  - name: "pip"
+    command: "pip"
+    args: ["--help"]
+    expectedOutput: [".*pip.*"]
+
+  - name: "ansible"
+    command: "/home/devops/.local/bin/ansible-playbook"
+    args: ["--help"]
+    expectedOutput: [".*ansible.*"]
+
 #  - name: "nvm installation"
 #    setup: [["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]]
 #    command: "nvm"

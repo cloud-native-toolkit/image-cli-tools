@@ -113,6 +113,12 @@ RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
+RUN sudo dnf install python3-pip -y --disableplugin=subscription-manager && \
+    sudo ln -s /usr/bin/python3 /usr/bin/python && \
+    sudo ln -s /usr/bin/pip3 /usr/bin/pip
+RUN pip install --user ansible && \
+    echo "export PATH=\"${PATH}:${HOME}/.local/bin\"" >> ./.bashrc-ni
+
 RUN sudo dnf clean all
 
 RUN curl -L https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz --output oc-client.tar.gz && \
