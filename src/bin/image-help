@@ -21,6 +21,7 @@ echo -e " > \033[1;38mdocker\033[0m"
 echo -e " > \033[1;38mgit\033[0m"
 echo -e " > \033[1;38mnvm\033[0m"
 echo -e " > \033[1;38mnode\033[0m (v11.12.0 currently installed)"
+echo -e " > \033[1;38msolsa\033[0m"
 echo -e " > \033[1;38myo\033[0m"
 echo -e ""
 

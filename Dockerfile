@@ -7,6 +7,7 @@ ENV TERRAFORM_HELM_VERSION 0.10.2
 ENV SUPPORTED_CALICO 3.9.1
 ENV NVM_VERSION 0.35.0
 ENV NODE_VERSION 11.12.0
+ENV SOLSA_VERSION 0.3.5
 
 RUN dnf install -y dnf-plugins-core --disableplugin=subscription-manager && \
     dnf install -y golang --disableplugin=subscription-manager && \
@@ -23,8 +24,17 @@ RUN curl -O -L https://github.com/projectcalico/calicoctl/releases/download/v${S
     chmod +x /usr/local/bin/calicoctl
 
 # Kustomize
-RUN curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash && \
-    mv kustomize /usr/local/bin
+RUN opsys=linux && \
+    curl -s https://api.github.com/repos/kubernetes-sigs/kustomize/releases |\
+      grep browser_download |\
+      grep $opsys |\
+      cut -d '"' -f 4 |\
+      grep /kustomize/v |\
+      sort | tail -n 1 |\
+      xargs curl -O -L && \
+    tar xzf ./kustomize_v*_${opsys}_amd64.tar.gz && \
+    mv kustomize /usr/local/bin/kustomize && \
+    chmod +x /usr/local/bin/kustomize
 
 ##################################
 # Terraform
@@ -109,6 +119,9 @@ WORKDIR ${HOME}
 # Install yo
 RUN . ./.bashrc-ni && npm i -g yo
 RUN . ./.bashrc-ni && npm i -g @garage-catalyst/ibm-garage-cloud-cli
+
+# Install solsa
+RUN . ./.bashrc-ni && npm i -g solsa@${SOLSA_VERSION}
 
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
