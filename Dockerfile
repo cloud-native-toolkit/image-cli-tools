@@ -1,12 +1,12 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.0-208
+FROM registry.access.redhat.com/ubi8/ubi:8.1-397
 
-ENV TERRAFORM_VERSION=0.11.14
-ENV TERRAFORM_IBMCLOUD_VERSION 0.20.0
-ENV TERRAFORM_KUBERNETES_VERSION 1.9.0
-ENV TERRAFORM_HELM_VERSION 0.10.2
-ENV SUPPORTED_CALICO 3.9.1
-ENV NVM_VERSION 0.35.0
-ENV NODE_VERSION 11.12.0
+ENV TERRAFORM_VERSION 0.12.20
+ENV TERRAFORM_IBMCLOUD_VERSION 1.2.0
+ENV TERRAFORM_KUBERNETES_VERSION 1.10.0
+ENV TERRAFORM_HELM_VERSION 1.0.0
+ENV SUPPORTED_CALICO 3.12.0
+ENV NVM_VERSION 0.35.2
+ENV NODE_VERSION 12
 ENV SOLSA_VERSION 0.3.5
 
 RUN dnf install -y dnf-plugins-core --disableplugin=subscription-manager && \
@@ -126,11 +126,11 @@ RUN . ./.bashrc-ni && npm i -g solsa@${SOLSA_VERSION}
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN sudo dnf install python3-pip -y --disableplugin=subscription-manager && \
-    sudo ln -s /usr/bin/python3 /usr/bin/python && \
-    sudo ln -s /usr/bin/pip3 /usr/bin/pip
-RUN pip install --user ansible && \
-    echo "export PATH=\"${PATH}:${HOME}/.local/bin\"" >> ./.bashrc-ni
+#RUN sudo dnf install python3 python3-pip -yv
+#RUN sudo ln -s /usr/bin/python3 /usr/bin/python
+#RUN sudo ln -s /usr/bin/pip3 /usr/bin/pip
+#RUN /usr/bin/python3 -m pip install --user ansible && \
+#    echo "export PATH=\"${PATH}:${HOME}/.local/bin\"" >> ./.bashrc-ni
 
 RUN sudo dnf clean all
 
