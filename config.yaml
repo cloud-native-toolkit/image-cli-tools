@@ -46,8 +46,13 @@ commandTests:
 
   - name: "Helm CLI installation"
     command: "helm"
-    args: ["--help"]
-    expectedOutput: ["The Kubernetes package manager.*"]
+    args: ["version", "--client"]
+    expectedOutput: [".*SemVer:.v2.16.*"]
+
+  - name: "Helm 3 CLI installation"
+    command: "helm3"
+    args: ["version"]
+    expectedOutput: ["version.BuildInfo{Version:.v3.*"]
 
   - name: "Kustomize CLI installation"
     command: "kustomize"
