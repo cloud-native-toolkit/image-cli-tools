@@ -8,6 +8,7 @@ ENV SUPPORTED_CALICO 3.12.0
 ENV NVM_VERSION 0.35.2
 ENV NODE_VERSION 12
 ENV SOLSA_VERSION 0.3.5
+ENV KUBECTL_VERSION 1.15.5
 
 RUN dnf install -y dnf-plugins-core --disableplugin=subscription-manager && \
     dnf install -y golang --disableplugin=subscription-manager && \
@@ -62,7 +63,7 @@ ENV HOME /home/devops
 # Create devops user
 RUN groupadd --force sudo && \
     groupadd -g 10000 devops && \
-    useradd -u 10000 -g 10000 -G sudo -d ${HOME} -m devops && \
+    useradd -u 10000 -g 10000 -G sudo,root -d ${HOME} -m devops && \
     usermod --password $(echo password | openssl passwd -1 -stdin) devops
 
 USER devops
@@ -138,11 +139,12 @@ RUN curl -L https://github.com/openshift/origin/releases/download/v3.11.0/opensh
     tar xzf oc-client.tar.gz && \
     sudo cp openshift-origin-client-tools*/oc /usr/local/bin && \
     sudo chmod +x /usr/local/bin/oc && \
-    rm -rf openshift-origin-client-tools*
+    rm -rf openshift-origin-client-tools* && \
+    rm oc-client.tar.gz
 #    sudo cp openshift-origin-client-tools*/kubectl /usr/local/bin && \
 #    sudo chmod +x /usr/local/bin/kubectl && \
 
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl && \
+RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     sudo mv ./kubectl /usr/local/bin
 
@@ -150,5 +152,7 @@ RUN sudo mv /usr/local/bin/helm /usr/local/bin/helm2 && \
     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash && \
     sudo mv /usr/local/bin/helm /usr/local/bin/helm3 && \
     sudo ln -s /usr/local/bin/helm2 /usr/local/bin/helm
+
+RUN sudo chown -R devops ${HOME} && sudo chgrp -R 0 ${HOME} && sudo chmod -R g=u ${HOME}
 
 ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]
