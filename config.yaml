@@ -41,8 +41,8 @@ commandTests:
 
   - name: "Kubectl CLI installation"
     command: "kubectl"
-    args: ["--help"]
-    expectedOutput: ["kubectl.*"]
+    args: ["version", "--client"]
+    expectedOutput: [".*v1.15.5.*"]
 
   - name: "Helm CLI installation"
     command: "helm"
