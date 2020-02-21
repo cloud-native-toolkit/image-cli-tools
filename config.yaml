@@ -95,20 +95,25 @@ commandTests:
 #    args: ["--help"]
 #    expectedOutput: [".*Node Version Manager.*"]
 
-#  - name: "node installation"
-#    command: "node"
-#    args: ["--help"]
-#    expectedOutput: ["v\\d\\d[.]\\d\\d[.]\\d\n"]
+  - name: "node installation"
+    command: "node"
+    args: ["--help"]
+    expectedOutput: ["v\\d\\d[.]\\d\\d[.]\\d\n"]
+
+  - name: "nvm installation"
+    command: "nvm"
+    args: ["--help"]
+    expectedOutput: ["v\\d\\d[.]\\d\\d[.]\\d\n"]
 
   - name: "SolSA CLI installation"
     command: "bash"
     args: ["-c", "source /home/devops/.nvm/nvm.sh && solsa help"]
     expectedError: ["Usage:\n.*solsa <command> <solution> \\[flags\\].*"]
 
-#  - name: "yo installation"
-#    command: "yo"
-#    args: ["--help"]
-#    expectedOutput: ["\\d[.]\\d[.]\\d\n"]
+  - name: "yo installation"
+    command: "yo"
+    args: ["--help"]
+    expectedOutput: ["\\d[.]\\d[.]\\d\n"]
 
 fileExistenceTests:
   - name: 'jenkins-config-template.xml'
