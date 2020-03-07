@@ -1,28 +1,29 @@
 # IBM Garage command-line tools
 
 This repository builds a Docker image whose container is a client for using IBM Cloud.
-The container includes the following tools:
-- terraform cli
+
+The container includes the following tools - (tool@version):
+- terraform cli@0.12.23
 - terraform plugins:
-  - terraform-provider-helm
-  - terraform-provider-kube
-  - terraform-provider-ibm
-- calico cli
+  - terraform-provider-helm@1.0.0
+  - terraform-provider-kube@1.10.0
+  - terraform-provider-ibm@1.2.3
+- calico cli@3.12.0
 - ibmcloud cli
 - ibmcloud plugins:
   - container-service
   - container-registry
   - cloud-databases
-- docker cli
-- kubectl cli
+- kubectl cli@1.15.5
 - kustomize cli
 - openshift (oc) cli 
-- helm cli
+- helm2 cli
+- helm3 cli
 - git cli
-- nvm cli
-- node cli
+- nvm cli@0.35.2
+- node cli@12.x
 - npm cli
-- solsa cli
+- solsa cli@0.3.5
 - yeoman (yo) cli
 
 The container also includes the following helper scripts:
@@ -51,12 +52,12 @@ Start the client to use it.
 - To run the `icclient` container:
 
     ```bash
-    docker run -itd --name icclient garagecatalyst/ibm-garage-cli-tools
+    docker run -itd --name icclient ibmgaragecloud/cli-tools
     ```
 
     This  assumes the image's default name, `ibm-garage-cli-tools`.
 
-Once the client is running in the backgroud, use it by opening a shell in it.
+Once the client is running in the backgroud, use it by opening a shell into it.
 
 - To use the `icclient` container, exec shell into it:
 
@@ -198,14 +199,21 @@ the image. Configuration for these tests are provided in the aptly named `config
 See https://github.com/GoogleContainerTools/container-structure-test for information on the
 defined values for the test definition.
 
-#### Push the image to Docker Hub
+#### Releasing the a version to Docker Hub
+
+A build pipeline is configured in Docker Hub to create new image versions when a change is pushed to Git. A new `latest` tag will be put on the tip of `master` branch and a
+versioned image tag will be created off of Git tags.
+
+In order to release a new version of the code for build, run the following:
 
 ```bash
-npm run push
+export GITHUB_TOKEN="<github PAT>"
+npm run release
 ```
 
-This will tag the local image version with the `IMAGE_ORG`/`IMAGE_NAME`:`IMAGE_VERSION`
-tag and push it to Docker Hub.
+...and follow the on screen instructions
+
+**Note:** The GITHUB_TOKEN should be your personal access token for GitHub. It is needed in order to create the `release` documentation in the repo
 
 #### Configuration
 
