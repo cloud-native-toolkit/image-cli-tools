@@ -1,10 +1,25 @@
 {
-  "name": "ibm-garage-cli-tools",
-  "version": "0.0.26",
-  "org": "garagecatalyst",
-  "branch": "next",
+  "name": "cli-tools",
+  "version": "0.1.1",
+  "org": "ibmgaragecloud",
+  "branch": "",
   "description": "This repository contains a docker image to help setup an IBM Cloud Public development environment.",
   "main": "index.js",
+  "release-it": {
+    "git": {
+      "tagName": "v${version}"
+    },
+    "github": {
+      "release": true
+    },
+    "hooks": {
+      "before:init": [
+        "npm test"
+      ],
+      "after:bump": "npm run build",
+      "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
+    }
+  },
   "scripts": {
     "build": "./scripts/build.sh $npm_package_name $npm_package_version $npm_package_branch",
     "pretest": "npm run build",
@@ -14,7 +29,8 @@
     "push": "npm run push:only",
     "push:only": "./scripts/publish.sh $npm_package_org $npm_package_name $npm_package_version $npm_package_branch",
     "pull": "./scripts/pull.sh $npm_package_org $npm_package_name $npm_package_version $npm_package_branch",
-    "start": "docker run -it $npm_package_name:$npm_package_version$(echo $npm_package_branch | sed -E \"s/(.+)/-\\1/g\")"
+    "start": "docker run -it $npm_package_name:$npm_package_version$(echo $npm_package_branch | sed -E \"s/(.+)/-\\1/g\")",
+    "release": "release-it --verbose"
   },
   "repository": {
     "type": "git",
@@ -22,5 +38,8 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "release-it": "^13.0.0"
+  }
 }
