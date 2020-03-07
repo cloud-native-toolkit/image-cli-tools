@@ -3,7 +3,7 @@
 This repository builds a Docker image whose container is a client for using IBM Cloud.
 
 The container includes the following tools - (tool@version):
-- terraform cli@0.12.23
+- terraform cli@0.12.20
 - terraform plugins:
   - terraform-provider-helm@1.0.0
   - terraform-provider-kube@1.10.0
