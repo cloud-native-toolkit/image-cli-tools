@@ -7,8 +7,7 @@
   "main": "index.js",
   "release-it": {
     "git": {
-      "tagName": "v${version}",
-      "requireCleanWorkingDir": false
+      "tagName": "v${version}"
     },
     "npm": {
       "publish": false
@@ -17,6 +16,10 @@
       "release": true
     },
     "hooks": {
+      "before:init": [
+        "npm test"
+      ],
+      "after:bump": "npm run build",
       "after:release": "echo Successfully released ${name} v${version} to ${repo.repository}."
     }
   },
