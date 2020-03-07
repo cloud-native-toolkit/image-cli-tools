@@ -133,7 +133,7 @@ RUN npm i -g solsa@${SOLSA_VERSION}
 COPY src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN sudo apk add python py-pip
+#RUN sudo apk add python py-pip
 #RUN /usr/bin/python -m pip install --user ansible && \
 #    echo "export PATH=\"${PATH}:${HOME}/.local/bin\"" >> ./.bashrc-ni
 
