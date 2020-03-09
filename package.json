@@ -33,7 +33,7 @@
     "push:only": "./scripts/publish.sh $npm_package_org $npm_package_name $npm_package_version $npm_package_branch",
     "pull": "./scripts/pull.sh $npm_package_org $npm_package_name $npm_package_version $npm_package_branch",
     "start": "docker run -it $npm_package_name:$npm_package_version$(echo $npm_package_branch | sed -E \"s/(.+)/-\\1/g\")",
-    "release": "release-it --verbose"
+    "release": "release-it --verbose -VV"
   },
   "repository": {
     "type": "git",
