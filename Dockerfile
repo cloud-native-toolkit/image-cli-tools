@@ -161,7 +161,9 @@ RUN sudo mv /usr/local/bin/helm /usr/local/bin/helm2 && \
 
 RUN sudo chown -R devops ${HOME} && sudo chgrp -R 0 ${HOME} && sudo chmod -R g=u ${HOME}
 
-RUN sudo dnf install -y yq --disableplugin=subscription-manager
+RUN curl -LO https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
+    chmod a+x jq-linux64 && \
+    sudo mv jq-linux64 /usr/local/bin/jq
 
 RUN sudo dnf clean all
 
