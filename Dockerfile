@@ -141,8 +141,6 @@ RUN cat ./image-message >> ./.bashrc-ni
 #RUN /usr/bin/python3 -m pip install --user ansible && \
 #    echo "export PATH=\"${PATH}:${HOME}/.local/bin\"" >> ./.bashrc-ni
 
-RUN sudo dnf clean all
-
 RUN curl -L https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz --output oc-client.tar.gz && \
     tar xzf oc-client.tar.gz && \
     sudo cp openshift-origin-client-tools*/oc /usr/local/bin && \
@@ -162,5 +160,9 @@ RUN sudo mv /usr/local/bin/helm /usr/local/bin/helm2 && \
     sudo ln -s /usr/local/bin/helm2 /usr/local/bin/helm
 
 RUN sudo chown -R devops ${HOME} && sudo chgrp -R 0 ${HOME} && sudo chmod -R g=u ${HOME}
+
+RUN sudo dnf install -y yq --disableplugin=subscription-manager
+
+RUN sudo dnf clean all
 
 ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]

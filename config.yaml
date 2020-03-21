@@ -74,6 +74,11 @@ commandTests:
     args: ["--help"]
     expectedOutput: [".*OpenShift.*"]
 
+  - name: "yq"
+    command: "yq"
+    args: ["--version"]
+    expectedOutput: ["yq version.*"]
+
 #  - name: "python"
 #    command: "python"
 #    args: ["--help"]
