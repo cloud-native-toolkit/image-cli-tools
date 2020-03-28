@@ -17,6 +17,7 @@ RUN apk add --update-cache \
   shadow \
   bash \
   openssl \
+  ca-certificates \
   && rm -rf /var/cache/apk/*
 
 ##################################
@@ -70,6 +71,8 @@ COPY --chown=devops:devops src/etc/* ${HOME}/etc/
 
 # Install the ibmcloud cli
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
+    ibmcloud plugin install container-service && \
+    ibmcloud plugin install container-registry && \
     ibmcloud config --check-version=false
 
 RUN mkdir -p ${HOME}/.terraform.d/plugins
@@ -111,9 +114,9 @@ RUN curl -L https://github.com/openshift/origin/releases/download/v3.11.0/opensh
     sudo cp openshift-origin-client-tools*/oc /usr/local/bin && \
     sudo chmod +x /usr/local/bin/oc && \
     rm -rf openshift-origin-client-tools* && \
-    rm oc-client.tar.gz
-#    sudo cp openshift-origin-client-tools*/kubectl /usr/local/bin && \
-#    sudo chmod +x /usr/local/bin/kubectl && \
+    rm oc-client.tar.gz && \
+    echo "alias oc='/lib/ld-musl-x86_64.so.1 --library-path /lib /usr/local/bin/oc'" >> ./.bashrc-ni
+
 
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
