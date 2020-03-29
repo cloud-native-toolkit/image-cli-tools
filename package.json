@@ -1,6 +1,6 @@
 {
   "name": "cli-tools",
-  "version": "0.1.7",
+  "version": "0.1.9",
   "org": "ibmgaragecloud",
   "branch": "lite",
   "description": "This repository contains a docker image to help setup an IBM Cloud Public development environment.",
