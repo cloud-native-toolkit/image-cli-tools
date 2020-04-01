@@ -49,10 +49,10 @@ commandTests:
     args: ["--help"]
     expectedOutput: ["usage: git.*"]
 
-#  - name: "OpenShift client installation"
-#    command: "/lib/ld-musl-x86_64.so.1 --library-path /lib /usr/local/bin/oc"
-#    args: ["--help"]
-#    expectedOutput: [".*OpenShift.*"]
+  - name: "OpenShift client installation"
+    command: "oc"
+    args: ["--help"]
+    expectedOutput: [".*OpenShift.*"]
 
 fileExistenceTests:
   - name: 'jenkins-config-template.xml'
