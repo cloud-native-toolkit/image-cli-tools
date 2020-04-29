@@ -2,8 +2,6 @@ FROM registry.access.redhat.com/ubi8/ubi:8.1-408
 
 ENV TERRAFORM_VERSION 0.12.24
 ENV TERRAFORM_IBMCLOUD_VERSION 1.5.0
-ENV TERRAFORM_KUBERNETES_VERSION 1.11.1
-ENV TERRAFORM_HELM_VERSION 1.1.1
 ENV SUPPORTED_CALICO 3.12.0
 ENV NVM_VERSION 0.35.2
 ENV NODE_VERSION 12
@@ -102,18 +100,6 @@ RUN curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/down
     unzip linux_amd64.zip && \
     chmod +x terraform-provider-ibm_* &&\
     rm -rf linux_amd64.zip
-
-# Install Kubernetes Terraform Provider
-RUN curl -L https://releases.hashicorp.com/terraform-provider-kubernetes/${TERRAFORM_KUBERNETES_VERSION}/terraform-provider-kubernetes_${TERRAFORM_KUBERNETES_VERSION}_linux_amd64.zip --output kube_linux_amd64.zip && \
-    unzip kube_linux_amd64.zip && \
-    chmod +x terraform-provider-kubernetes_* && \
-    rm -rf kube_linux_amd64.zip
-
-# Install Helm Terraform Provider
-RUN curl -L https://releases.hashicorp.com/terraform-provider-helm/${TERRAFORM_HELM_VERSION}/terraform-provider-helm_${TERRAFORM_HELM_VERSION}_linux_amd64.zip --output helm_linux_amd64.zip &&\
-    unzip helm_linux_amd64.zip &&\
-    chmod +x terraform-provider-helm_* &&\
-    rm -rf helm_linux_amd64.zip
 
 WORKDIR ${HOME}
 

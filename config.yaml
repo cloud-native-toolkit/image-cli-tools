@@ -120,14 +120,6 @@ fileExistenceTests:
     path: '/home/devops/etc'
     shouldExist: true
 
-  - name: "terraform-provider-helm.*"
-    path: "/home/devops/.terraform.d/plugins"
-    shouldExist: true
-
-  - name: "terraform-provider-kubernetes.*"
-    path: "/home/devops/.terraform.d/plugins"
-    shouldExist: true
-
   - name: "terraform-provider-ibm.*"
     path: "/home/devops/.terraform.d/plugins"
     shouldExist: true
