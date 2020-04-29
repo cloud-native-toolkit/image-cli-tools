@@ -1,9 +1,9 @@
-FROM registry.access.redhat.com/ubi8/ubi:8.1-397
+FROM registry.access.redhat.com/ubi8/ubi:8.1-408
 
 ENV TERRAFORM_VERSION 0.12.24
-ENV TERRAFORM_IBMCLOUD_VERSION 1.4.0
-ENV TERRAFORM_KUBERNETES_VERSION 1.10.0
-ENV TERRAFORM_HELM_VERSION 1.0.0
+ENV TERRAFORM_IBMCLOUD_VERSION 1.5.0
+ENV TERRAFORM_KUBERNETES_VERSION 1.11.1
+ENV TERRAFORM_HELM_VERSION 1.1.1
 ENV SUPPORTED_CALICO 3.12.0
 ENV NVM_VERSION 0.35.2
 ENV NODE_VERSION 12
@@ -98,14 +98,6 @@ RUN mkdir -p ${HOME}/.terraform.d/plugins
 WORKDIR ${HOME}/.terraform.d/plugins
 
 # Install IBM Cloud Terraform Provider
-RUN curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.2.1/linux_amd64.zip &&\
-    unzip linux_amd64.zip && \
-    chmod +x terraform-provider-ibm_* &&\
-    rm -rf linux_amd64.zip
-RUN curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v1.2.2/linux_amd64.zip &&\
-    unzip linux_amd64.zip && \
-    chmod +x terraform-provider-ibm_* &&\
-    rm -rf linux_amd64.zip
 RUN curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v${TERRAFORM_IBMCLOUD_VERSION}/linux_amd64.zip &&\
     unzip linux_amd64.zip && \
     chmod +x terraform-provider-ibm_* &&\
