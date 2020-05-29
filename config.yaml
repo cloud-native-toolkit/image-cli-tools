@@ -5,80 +5,41 @@ metadataTest:
   entrypoint: ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]
 
 commandTests:
-  - name: "current user"
-    command: "whoami"
-    expectedOutput: ["devops"]
-
   - name: "terraform installation"
     command: "terraform"
     args: ["--help"]
     expectedOutput: ["Usage: terraform.*"]
-
-  - name: "IBM Cloud CLI installation"
-    command: "ibmcloud"
-    args: ["--help"]
-    expectedOutput: ["NAME:\n.*ibmcloud.*"]
-
-  - name: "IBM Cloud container-service plugin"
-    command: "ibmcloud"
-    args: ["plugin", "list"]
-    expectedOutput: [".*container-service/kubernetes-service.*"]
-
-  - name: "IBM Cloud container-registry plugin"
-    command: "ibmcloud"
-    args: ["plugin", "list"]
-    expectedOutput: [".*container-registry.*"]
 
   - name: "Kubectl CLI installation"
     command: "kubectl"
     args: ["version", "--client"]
     expectedOutput: [".*v1.15.5.*"]
 
-  - name: "Helm 3 CLI installation"
-    command: "helm3"
-    args: ["version"]
-    expectedOutput: ["version.BuildInfo{Version:.v3.*"]
-
-  - name: "Kustomize CLI installation"
-    command: "kustomize"
-    args: ["--help"]
-    expectedOutput: [".*Usage:\n  kustomize.*"]
-
-  - name: "Git installation"
+  - name: "git installation"
     command: "git"
     args: ["--help"]
     expectedOutput: ["usage: git.*"]
 
-  - name: "OpenShift client installation"
-    command: "oc"
+  - name: "curl installation"
+    command: "curl"
     args: ["--help"]
-    expectedOutput: [".*OpenShift.*"]
+    expectedOutput: ["Usage: curl.*"]
+
+  - name: "unzip installation"
+    command: "unzip"
+    args: ["--help"]
+    expectedOutput: ["UnZip.*"]
+
+  - name: "bash installation"
+    command: "bash"
+    args: ["--help"]
+    expectedOutput: ["GNU bash.*"]
 
 fileExistenceTests:
   - name: 'jenkins-config-template.xml'
     path: '/home/devops/etc'
     shouldExist: true
 
-  - name: "terraform-provider-helm.*"
-    path: "/home/devops/.terraform.d/plugins"
-    shouldExist: true
-
-  - name: "terraform-provider-kubernetes.*"
-    path: "/home/devops/.terraform.d/plugins"
-    shouldExist: true
-
   - name: "terraform-provider-ibm.*"
     path: "/home/devops/.terraform.d/plugins"
-    shouldExist: true
-
-  - name: 'cluster-pull-secret-apply.sh'
-    path: '/usr/local/bin'
-    shouldExist: true
-
-  - name: 'setup-namespace-pull-secrets.sh'
-    path: '/usr/local/bin'
-    shouldExist: true
-
-  - name: 'checkPodRunning.sh'
-    path: '/usr/local/bin'
     shouldExist: true

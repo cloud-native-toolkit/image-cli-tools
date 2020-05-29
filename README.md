@@ -3,27 +3,9 @@
 This repository builds a Docker image whose container is a client for using IBM Cloud.
 The container includes the following tools:
 - terraform cli
-- terraform plugins:
-  - terraform-provider-helm
-  - terraform-provider-kube
-  - terraform-provider-ibm
-- calico cli
-- ibmcloud cli
-- ibmcloud plugins:
-  - container-service
-  - container-registry
-  - cloud-databases
-- docker cli
+- IBM Cloud terraform provider
 - kubectl cli
-- kustomize cli
-- openshift (oc) cli 
-- helm cli
 - git cli
-- nvm cli
-- node cli
-- npm cli
-- solsa cli
-- yeoman (yo) cli
 
 The container also includes the following helper scripts:
 - init.sh
