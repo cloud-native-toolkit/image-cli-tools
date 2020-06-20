@@ -90,4 +90,4 @@ RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/rel
     chmod +x ./yq && \
     sudo mv ./yq /usr/bin/yq
 
-ENTRYPOINT ["/bin/bash", "--init-file", "/home/devops/.bashrc-ni"]
+ENTRYPOINT ["/bin/sh"]
