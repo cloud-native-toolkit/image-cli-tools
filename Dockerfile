@@ -76,7 +76,8 @@ COPY --chown=devops:devops src/etc/* ${HOME}/etc/
 # Install the ibmcloud cli
 RUN curl -sL https://ibm.biz/idt-installer | bash && \
     ibmcloud config --check-version=false && \
-    ibmcloud plugin install cloud-databases
+    ibmcloud plugin install cloud-databases -f && \
+    ibmcloud plugin install observe-service -f && \
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v${NVM_VERSION}/install.sh | bash
