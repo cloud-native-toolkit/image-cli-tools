@@ -43,8 +43,9 @@ COPY --chown=devops:root src/etc/* ${HOME}/etc/
 
 # Install the ibmcloud cli
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
-    ibmcloud plugin install container-service && \
-    ibmcloud plugin install container-registry && \
+    ibmcloud plugin install container-service -f && \
+    ibmcloud plugin install container-registry -f && \
+    ibmcloud plugin install observe-service -f && \
     ibmcloud config --check-version=false
 
 # Install IBM Cloud Terraform Provider
