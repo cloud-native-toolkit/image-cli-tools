@@ -1,6 +1,6 @@
 FROM docker.io/hashicorp/terraform:0.12.26
 
-ENV TERRAFORM_IBMCLOUD_VERSION 1.8.1
+ENV TERRAFORM_IBMCLOUD_VERSION 1.9.0
 ENV KUBECTL_VERSION 1.15.5
 
 RUN apk add --update-cache \
