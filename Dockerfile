@@ -36,7 +36,7 @@ RUN useradd -u 10000 -g root -G sudo -d ${HOME} -m devops && \
 USER devops
 WORKDIR ${HOME}
 
-COPY --chown=devops:root src/etc/* ${HOME}/etc/
+COPY --chown=devops:root src/home/ ${HOME}/
 
 ##################################
 # IBM Cloud CLI
@@ -61,7 +61,6 @@ RUN mkdir -p ${HOME}/.terraform.d/plugins && \
 
 WORKDIR ${HOME}
 
-COPY --chown=devops:root src/image-message ./image-message
 RUN cat ./image-message >> ./.bashrc-ni
 
 RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OPENSHIFT_CLI_VERSION}/openshift-client-linux.tar.gz --output oc-client.tar.gz && \
@@ -95,5 +94,7 @@ RUN curl -LO https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 
 RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/latest | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') && \
     chmod +x ./yq && \
     sudo mv ./yq /usr/bin/yq
+
+RUN cd ${HOME}/terraform && terraform init
 
 ENTRYPOINT ["/bin/sh"]
