@@ -1,5 +1,7 @@
 # IBM Garage command-line tools
 
+[![Docker Repository on Quay](https://quay.io/repository/ibmgaragecloud/cli-tools/status "Docker Repository on Quay")](https://quay.io/repository/ibmgaragecloud/cli-tools)
+
 This repository builds a Docker image whose container is a client for using IBM Cloud.
 
 The container includes the following tools - (tool@version):
