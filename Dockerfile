@@ -12,6 +12,7 @@ RUN apk add --update-cache \
   bash \
   openssl \
   ca-certificates \
+  perl \
   && rm -rf /var/cache/apk/*
 
 WORKDIR $GOPATH/bin
