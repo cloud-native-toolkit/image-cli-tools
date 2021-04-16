@@ -6,6 +6,7 @@ The container includes the following tools:
 - IBM Cloud terraform provider
 - kubectl cli
 - git cli
+- perl cli
 
 The container also includes the following helper scripts:
 - init.sh
