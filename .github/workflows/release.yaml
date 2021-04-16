@@ -21,5 +21,6 @@ jobs:
           # (Optional) specify config name to use, relative to .github/. Default: release-drafter.yml
           config-name: release-drafter-${{ env.GITHUB_REF_SLUG }}.yaml
           publish: true
+          commitish: ${{ env.GITHUB_REF_SLUG }}
         env:
           GITHUB_TOKEN: ${{ secrets.TOKEN }}
