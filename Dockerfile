@@ -13,6 +13,7 @@ RUN apk add --update-cache \
   openssl \
   ca-certificates \
   perl \
+  openvpn \
   && rm -rf /var/cache/apk/*
 
 WORKDIR $GOPATH/bin
