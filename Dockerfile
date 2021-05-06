@@ -1,4 +1,4 @@
-FROM docker.io/hashicorp/terraform:0.13.6
+FROM docker.io/hashicorp/terraform:0.14.11
 
 ENV TERRAFORM_IBMCLOUD_VERSION 1.21.2
 ENV KUBECTL_VERSION 1.20.5
