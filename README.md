@@ -2,7 +2,7 @@
 
 This repository builds a Docker image whose container is a client for using IBM Cloud.
 The container includes the following tools:
-- terraform cli
+- terraform cli - v0.13.7
 - IBM Cloud terraform provider
 - kubectl cli
 - git cli
