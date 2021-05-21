@@ -8,6 +8,8 @@ on:
     branches:
       - master
       - lite
+      - v13
+      - v14
 
 jobs:
   docker:
@@ -26,7 +28,7 @@ jobs:
           else
             echo "Running against branch: ${BRANCH}"
             TAGS="${TAG_BASE}:${BRANCH}"
-            if [[ "${BRANCH}" == "main" ]]; then
+            if [[ "${BRANCH}" == "v14" ]]; then
               TAGS="${TAGS},${TAG_BASE}:latest"
             fi
           fi
