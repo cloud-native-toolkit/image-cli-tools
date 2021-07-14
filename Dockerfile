@@ -1,7 +1,7 @@
-FROM docker.io/hashicorp/terraform:0.14.11
+FROM docker.io/hashicorp/terraform:0.15.5
 
 ENV TERRAFORM_IBMCLOUD_VERSION 1.21.2
-ENV KUBECTL_VERSION 1.20.5
+ENV KUBECTL_VERSION 1.27.2
 ENV OPENSHIFT_CLI_VERSION 4.7.2
 
 RUN apk add --update-cache \
