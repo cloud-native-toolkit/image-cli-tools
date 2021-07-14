@@ -1,5 +1,5 @@
-name-template: 'v$RESOLVED_VERSION-v14'
-tag-template: 'v$RESOLVED_VERSION-v14'
+name-template: 'v$RESOLVED_VERSION-v0.14'
+tag-template: 'v$RESOLVED_VERSION-v0.14'
 change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
 categories:
   - title: 'Features'
