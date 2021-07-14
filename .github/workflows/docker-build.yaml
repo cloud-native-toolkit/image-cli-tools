@@ -10,6 +10,7 @@ on:
       - lite
       - v13
       - v14
+      - v0.14
 
 jobs:
   docker:
