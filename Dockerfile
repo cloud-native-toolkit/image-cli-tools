@@ -1,8 +1,7 @@
 FROM docker.io/hashicorp/terraform:0.15.5
 
 ENV TERRAFORM_IBMCLOUD_VERSION 1.21.2
-ENV KUBECTL_VERSION 1.27.2
-ENV OPENSHIFT_CLI_VERSION 4.7.2
+ENV OPENSHIFT_CLI_VERSION 4.7
 
 RUN apk add --update-cache \
   curl \
@@ -65,7 +64,7 @@ WORKDIR ${HOME}
 
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OPENSHIFT_CLI_VERSION}/openshift-client-linux.tar.gz --output oc-client.tar.gz && \
+RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-${OPENSHIFT_CLI_VERSION}/openshift-client-linux.tar.gz --output oc-client.tar.gz && \
     mkdir tmp && \
     cd tmp && \
     tar xzf ../oc-client.tar.gz && \
@@ -80,7 +79,7 @@ RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OPENSHIF
     sudo mv ./oc /usr/local/bin && \
     sudo chmod +x /usr/local/bin/oc
 
-RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl && \
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
     chmod +x ./kubectl && \
     sudo mv ./kubectl /usr/local/bin
 
