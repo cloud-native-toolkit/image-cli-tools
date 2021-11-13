@@ -1,6 +1,5 @@
-FROM docker.io/hashicorp/terraform:0.15.5
+FROM docker.io/hashicorp/terraform:1.0.11
 
-ENV TERRAFORM_IBMCLOUD_VERSION 1.21.2
 ENV OPENSHIFT_CLI_VERSION 4.7
 
 RUN apk add --update-cache \
@@ -50,15 +49,6 @@ RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
     ibmcloud plugin install observe-service -f && \
     ibmcloud plugin install vpc-infrastructure -f && \
     ibmcloud config --check-version=false
-
-# Install IBM Cloud Terraform Provider
-RUN mkdir -p ${HOME}/.terraform.d/plugins && \
-    cd ${HOME}/.terraform.d/plugins && \
-    curl -O -L https://github.com/IBM-Cloud/terraform-provider-ibm/releases/download/v${TERRAFORM_IBMCLOUD_VERSION}/linux_amd64.zip &&\
-    unzip linux_amd64.zip && \
-    chmod +x terraform-provider-ibm_* &&\
-    rm -rf linux_amd64.zip && \
-    cd -
 
 WORKDIR ${HOME}
 
