@@ -60,6 +60,13 @@ RUN mkdir -p ${HOME}/.terraform.d/plugins && \
     rm -rf linux_amd64.zip && \
     cd -
 
+##################################
+# AWS Cloud CLI
+##################################
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+   unzip awscliv2.zip && \
+   sudo ./aws/install
+
 WORKDIR ${HOME}
 
 RUN cat ./image-message >> ./.bashrc-ni
