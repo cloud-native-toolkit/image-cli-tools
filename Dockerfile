@@ -108,6 +108,8 @@ RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/rel
     chmod +x ./yq && \
     sudo mv ./yq /usr/bin/yq
 
-RUN cd ${HOME}/terraform && terraform init
+RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.16.1 | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') && \
+    chmod +x ./yq4 && \
+    sudo mv ./yq4 /usr/bin/yq4
 
 ENTRYPOINT ["/bin/sh"]
