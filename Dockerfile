@@ -15,6 +15,18 @@ RUN apk add --update-cache \
   openvpn \
   && rm -rf /var/cache/apk/*
 
+
+## AWS cli
+RUN apk add --no-cache \
+        python3 \
+        py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install \
+        awscli \
+    && rm -rf /var/cache/apk/* \
+    && aws --version
+
+
 WORKDIR $GOPATH/bin
 
 COPY src/bin/* /usr/local/bin/
@@ -59,13 +71,6 @@ RUN mkdir -p ${HOME}/.terraform.d/plugins && \
     chmod +x terraform-provider-ibm_* &&\
     rm -rf linux_amd64.zip && \
     cd -
-
-####################################
-# AWS Cloud CLI
-####################################
-RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
-   unzip awscliv2.zip && \
-   sudo ./aws/install
 
 WORKDIR ${HOME}
 
