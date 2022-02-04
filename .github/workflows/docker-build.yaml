@@ -13,6 +13,7 @@ on:
       - v0.14
       - v0.15
       - v1.0
+      - v1.1
 
 jobs:
   docker:
