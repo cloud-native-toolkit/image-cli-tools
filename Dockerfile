@@ -27,6 +27,13 @@ RUN apk add --no-cache \
     && aws --version
 
 
+## Azure cli
+RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make \
+    && pip install --upgrade pip \
+    && pip install azure-cli \
+    && az --version
+
+
 WORKDIR $GOPATH/bin
 
 COPY src/bin/* /usr/local/bin/
