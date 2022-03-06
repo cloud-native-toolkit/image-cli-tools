@@ -12,6 +12,7 @@ RUN apk add --update-cache \
   ca-certificates \
   perl \
   openvpn \
+  gcompat \
   && rm -rf /var/cache/apk/*
 
 
