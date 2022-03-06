@@ -1,4 +1,4 @@
-FROM docker.io/hashicorp/terraform:1.1.5
+FROM docker.io/hashicorp/terraform:1.1.7
 
 ENV OPENSHIFT_CLI_VERSION 4.7
 
