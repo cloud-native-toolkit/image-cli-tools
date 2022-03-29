@@ -51,7 +51,9 @@ ENV HOME /home/devops
 
 # Create devops user
 RUN useradd -u 10000 -g root -G sudo -d ${HOME} -m devops && \
-    usermod --password $(echo password | openssl passwd -1 -stdin) devops
+    usermod --password $(echo password | openssl passwd -1 -stdin) devops && \
+    mkdir -p /workspaces && \
+    chown -R 10000:0 /workspaces
 
 USER devops
 WORKDIR ${HOME}
@@ -109,5 +111,7 @@ RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/rel
 RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.16.1 | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') && \
     chmod +x ./yq4 && \
     sudo mv ./yq4 /usr/bin/yq4
+
+VOLUME /workspaces
 
 ENTRYPOINT ["/bin/sh"]
