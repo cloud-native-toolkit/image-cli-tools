@@ -22,7 +22,7 @@ jobs:
       - name: Set up tags
         id: setup
         run: |
-          TAG_BASE="quay.io/ibmgaragecloud/cli-tools"
+          TAG_BASE="quay.io/cloud-native-toolkit/cli-tools"
 
           BRANCH=${GITHUB_REF#refs/heads/}
           TAG="${{ github.event.release.tag_name }}"
@@ -32,7 +32,7 @@ jobs:
           else
             echo "Running against branch: ${BRANCH}"
             TAGS="${TAG_BASE}:${BRANCH}"
-            if [[ "${BRANCH}" == "v14" ]]; then
+            if [[ "${BRANCH}" == "v1.1" ]]; then
               TAGS="${TAGS},${TAG_BASE}:latest"
             fi
           fi
@@ -56,8 +56,8 @@ jobs:
         uses: docker/login-action@v1
         with:
           registry: quay.io
-          username: ${{ secrets.QUAY_USERNAME }}
-          password: ${{ secrets.QUAY_TOKEN }}
+          username: ${{ secrets.QUAY_CNTK_USERNAME }}
+          password: ${{ secrets.QUAY_CNTK_TOKEN }}
 
       - name: Build and push
         id: docker_build
