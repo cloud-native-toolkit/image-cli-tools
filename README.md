@@ -1,21 +1,22 @@
-# IBM Garage command-line tools
+# Cloud-Native Toolkit cli tools
 
-This repository builds a Docker image whose container is a client for using IBM Cloud.
+[![Docker Repository on Quay](https://quay.io/repository/cloudnativetoolkit/cli-tools/status "Docker Repository on Quay")](https://quay.io/repository/cloudnativetoolkit/cli-tools)
+
+This repository builds a Docker image whose container is a client for interacting with different cloud providers (IBM Cloud, AWS, Azure).
+
 The container includes the following tools:
 - terraform cli
-- IBM Cloud terraform provider
+- IBM Cloud cli
+- AWS cli
+- Azure cli
+- bash
 - kubectl cli
+- oc cli
 - git cli
 - perl cli
-
-The container also includes the following helper scripts:
-- init.sh
-- createNamespaces.sh
-- installHelm.sh
-- cluster-pull-secret-apply.sh
-- setup-namespace-pull-secrets.sh
-- checkPodRunning.sh
-- copy-secret-to-namespace.sh
+- jq cli
+- yq3 cli
+- yq4 cli
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
@@ -25,26 +26,25 @@ The container also includes the following helper scripts:
 
 To run this image, the following tools are required:
 
-- `Docker` - kinda obvious, but since we are running a Docker image, you need to have the tool available
+- `docker` cli
+- `docker` backend - Docker Desktop, colima, etc
 
 ### Running the client
 
 Start the client to use it.
 
-- To run the `icclient` container:
+- To run the `toolkit` container:
 
     ```bash
-    docker run -itd --name icclient garagecatalyst/ibm-garage-cli-tools
+    docker run -itd --name toolkit quay.io/cloudnativetoolkit/cli-tools
     ```
 
-    This  assumes the image's default name, `ibm-garage-cli-tools`.
+Once the client is running in the background, use it by opening a shell in it.
 
-Once the client is running in the backgroud, use it by opening a shell in it.
-
-- To use the `icclient` container, exec shell into it:
+- To use the `toolkit` container, exec shell into it:
 
     ```bash
-    docker exec -it icclient /bin/bash
+    docker exec -it toolkit /bin/bash
     ```
 
     Your terminal is now in the container. 
@@ -53,7 +53,7 @@ Use this shell to run commands using the installed tools and scripts.
 
 When you're finished running commands, to exit the client.
 
-- To leave the `icclient` container shell, as with any shell:
+- To leave the `toolkit` container shell, as with any shell:
 
     ```bash
     exit
@@ -63,53 +63,13 @@ When you're finished running commands, to exit the client.
 
 If the client stops:
 
-- To run the `icclient` container again:
+- To run the `toolkit` container again:
 
     ```bash
-    docker start icclient
+    docker start toolkit
     ```
 
-The `icclient` container is just a Docker container, so all [Docker CLI commands](https://docs.docker.com/engine/reference/commandline/cli/) work.
-
-### Using the client
-
-From a client shell, run `image-help` to get a list of available tools, scripts, and ENV properties:
-
-```bash
-$ image-help
-Available env properties (can be overridden for individual commands):
- > BM_API_KEY - the IBM Cloud api key
- > REGION - the IBM Cloud region (e.g. us-south)
- > RESOURCE_GROUP - the IBM Cloud resource group
- > CLUSTER_NAME - the name of the kubernetes cluster in IBM Cloud
- > SL_USERNAME - the Classic Infrastructure user name or API user name (e.g. 282165_joe@us.ibm.com)
- > SL_API_KEY - the Classic Infrastructure api key
-
-Available tools:
- > terraform (with helm, kube, and ibm provider plugins)
- > calicoctl
- > ibmcloud (with container-service, container-registry, and cloud-databases plugins)
- > kubectl
- > kustomize
- > oc
- > helm
- > docker
- > git
- > nvm
- > node (v11.12.0 currently installed)
- > solsa
- > yo
-
-Available scripts:
- > init.sh {BM_API_KEY} {REGION} {RESOURCE_GROUP} {CLUSTER_NAME}
- > createNamespaces.sh
- > deleteNamespace.sh
- > installHelm.sh
- > cluster-pull-secret-apply.sh
- > setup-namespace-pull-secrets.sh
- > checkPodRunning.sh
- > copy-secret-to-namespace.sh
-```
+The `toolkit` container is just a Docker container, so all [Docker CLI commands](https://docs.docker.com/engine/reference/commandline/cli/) work.
 
 ## Development
 
