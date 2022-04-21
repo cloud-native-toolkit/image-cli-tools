@@ -120,4 +120,12 @@ RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/re
     chmod +x ./yq4 && \
     sudo mv ./yq4 /usr/bin/yq4
 
+RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz && \
+    tar xzf ./helm.tar.gz linux-amd64/helm && \
+    sudo mv ./linux-amd64/helm /usr/bin/helm && \
+    rmdir ./linux-amd64 && \
+    rm ./helm.tar.gz
+
+VOLUME /workspaces
+
 ENTRYPOINT ["/bin/sh"]
