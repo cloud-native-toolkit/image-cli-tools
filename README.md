@@ -1,21 +1,19 @@
 # IBM Garage command-line tools
 
+[![Docker Repository on Quay](https://quay.io/repository/cloudnativetoolkit/cli-tools/status "Docker Repository on Quay")](https://quay.io/repository/cloudnativetoolkit/cli-tools)
+
 This repository builds a Docker image whose container is a client for using IBM Cloud.
+
 The container includes the following tools:
 - terraform cli
 - IBM Cloud terraform provider
 - kubectl cli
 - git cli
 - perl cli
-
-The container also includes the following helper scripts:
-- init.sh
-- createNamespaces.sh
-- installHelm.sh
-- cluster-pull-secret-apply.sh
-- setup-namespace-pull-secrets.sh
-- checkPodRunning.sh
-- copy-secret-to-namespace.sh
+- jq cli
+- yq3 cli
+- yq4 cli
+- helm cli
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
