@@ -17,6 +17,7 @@ The container includes the following tools:
 - jq cli
 - yq3 cli
 - yq4 cli
+- helm cli
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
