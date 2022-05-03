@@ -1,6 +1,6 @@
 FROM docker.io/hashicorp/terraform:1.1.9
 
-ENV OPENSHIFT_CLI_VERSION 4.7
+ENV OPENSHIFT_CLI_VERSION 4.10
 
 RUN apk add --update-cache \
   curl \
