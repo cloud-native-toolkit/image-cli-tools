@@ -118,6 +118,10 @@ RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz 
     rmdir ./linux-amd64 && \
     rm ./helm.tar.gz
 
+RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.10/terragrunt_linux_amd64 && \
+    chmod +x ./terragrunt && \
+    sudo mv ./terragrunt /usr/bin/terragrunt
+
 VOLUME /workspaces
 
 ENTRYPOINT ["/bin/sh"]

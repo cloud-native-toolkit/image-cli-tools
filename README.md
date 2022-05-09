@@ -18,6 +18,7 @@ The container includes the following tools:
 - yq3 cli
 - yq4 cli
 - helm cli
+- terragrunt cli
 
 **Warning: The material contained in this repository has not been thoroughly tested. Proceed with caution.**
 
