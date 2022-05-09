@@ -118,11 +118,6 @@ RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz 
     rmdir ./linux-amd64 && \
     rm ./helm.tar.gz
 
-RUN sudo apk add openvpn && \
-    sudo mkdir -p /dev/net && \
-    sudo touch /dev/net/tun && \
-    sudo chmod 666 /dev/net/tun
-
 VOLUME /workspaces
 
 ENTRYPOINT ["/bin/sh"]
