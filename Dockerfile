@@ -1,5 +1,6 @@
 FROM docker.io/hashicorp/terraform:1.1.9
 
+ARG TARGETPLATFORM
 ENV OPENSHIFT_CLI_VERSION 4.10
 
 RUN apk add --update-cache \
@@ -13,6 +14,7 @@ RUN apk add --update-cache \
   perl \
   openvpn \
   gcompat \
+  jq \
   && rm -rf /var/cache/apk/*
 
 
@@ -80,18 +82,12 @@ RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-${O
     mkdir tmp && \
     cd tmp && \
     tar xzf ../oc-client.tar.gz && \
-    sudo mkdir -p /usr/local/fix && \
-    sudo chmod a+rwx /usr/local/fix && \
-    sudo cp ./oc /usr/local/fix && \
-    sudo chmod +x /usr/local/fix/oc && \
+    sudo mv ./oc /usr/local/bin && \
     cd .. && \
     rm -rf tmp && \
-    rm oc-client.tar.gz && \
-    echo '/lib/ld-musl-x86_64.so.1 --library-path /lib /usr/local/fix/oc $@' > ./oc && \
-    sudo mv ./oc /usr/local/bin && \
-    sudo chmod +x /usr/local/bin/oc
+    rm oc-client.tar.gz
 
-RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" && \
+RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/kubectl" && \
     chmod +x ./kubectl && \
     sudo mv ./kubectl /usr/local/bin
 
@@ -100,25 +96,21 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 
 #RUN sudo chown -R devops ${HOME} && sudo chgrp -R 0 ${HOME} && sudo chmod -R g=u ${HOME}
 
-RUN curl -LO https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64 && \
-    chmod a+x jq-linux64 && \
-    sudo mv jq-linux64 /usr/local/bin/jq
-
-RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/3.4.1 | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') && \
+RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/3.4.1 | jq -r --arg NAME "yq_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)" '.assets[] | select(.name == $NAME) | .browser_download_url') && \
     chmod +x ./yq && \
     sudo mv ./yq /usr/bin/yq
 
-RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.16.1 | jq -r '.assets[] | select(.name == "yq_linux_amd64") | .browser_download_url') && \
+RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.16.1 | jq -r --arg NAME "yq_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)" '.assets[] | select(.name == $NAME) | .browser_download_url') && \
     chmod +x ./yq4 && \
     sudo mv ./yq4 /usr/bin/yq4
 
-RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-amd64.tar.gz && \
-    tar xzf ./helm.tar.gz linux-amd64/helm && \
-    sudo mv ./linux-amd64/helm /usr/bin/helm && \
-    rmdir ./linux-amd64 && \
+RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).tar.gz && \
+    tar xzf ./helm.tar.gz linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/helm && \
+    sudo mv ./linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/helm /usr/bin/helm && \
+    rmdir ./linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
     rm ./helm.tar.gz
 
-RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.10/terragrunt_linux_amd64 && \
+RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.10/terragrunt_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
     chmod +x ./terragrunt && \
     sudo mv ./terragrunt /usr/bin/terragrunt
 
