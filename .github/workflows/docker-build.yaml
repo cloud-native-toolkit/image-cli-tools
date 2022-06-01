@@ -5,8 +5,9 @@ on:
   push:
     branches:
       - 'v*.*'
-    tags:
-      - 'v*.*.*-v*.*'
+  release:
+    types:
+      - published
   pull_request:
     branches:
       - 'v*.*'
@@ -21,7 +22,6 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
 
-      # https://github.com/docker/setup-buildx-action
       - name: Set up Docker Buildx
         id: buildx
         uses: docker/setup-buildx-action@v2
