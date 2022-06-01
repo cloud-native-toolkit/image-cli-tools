@@ -78,7 +78,7 @@ WORKDIR ${HOME}
 
 RUN cat ./image-message >> ./.bashrc-ni
 
-RUN curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable-${OPENSHIFT_CLI_VERSION}/openshift-client-linux.tar.gz --output oc-client.tar.gz && \
+RUN curl -L https://mirror.openshift.com/pub/openshift-v4/$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)/clients/ocp/stable-${OPENSHIFT_CLI_VERSION}/openshift-client-linux.tar.gz --output oc-client.tar.gz && \
     mkdir tmp && \
     cd tmp && \
     tar xzf ../oc-client.tar.gz && \
