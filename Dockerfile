@@ -1,9 +1,11 @@
-FROM docker.io/hashicorp/terraform:1.1.9
+FROM alpine:3.16.0
 
 ARG TARGETPLATFORM
 ENV OPENSHIFT_CLI_VERSION 4.10
+ENV TERRAFORM_VERSION 1.1.9
+ENV TERRAGRUNT_VERSION 0.36.10
 
-RUN apk add --update-cache \
+RUN apk add --no-cache \
   curl \
   unzip \
   sudo \
@@ -14,9 +16,18 @@ RUN apk add --update-cache \
   perl \
   openvpn \
   gcompat \
+  git \
   jq \
   && rm -rf /var/cache/apk/*
 
+RUN curl -Lso /tmp/terraform.zip https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi).zip && \
+    mkdir -p /tmp/terraform && \
+    cd /tmp/terraform && \
+    unzip /tmp/terraform.zip && \
+    mv ./terraform /usr/local/bin && \
+    cd - && \
+    rm -rf /tmp/terraform && \
+    rm /tmp/terraform.zip
 
 ## AWS cli
 RUN apk add --no-cache \
@@ -71,7 +82,7 @@ RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
     ibmcloud plugin install container-service -f && \
     ibmcloud plugin install container-registry -f && \
     ibmcloud plugin install observe-service -f && \
-    ibmcloud plugin install vpc-infrastructure -f && \
+    if [[ "$TARGETPLATFORM" != "linux/arm64" ]]; then ibmcloud plugin install vpc-infrastructure -f; fi && \
     ibmcloud config --check-version=false
 
 WORKDIR ${HOME}
@@ -110,7 +121,7 @@ RUN wget -q -O ./helm.tar.gz https://get.helm.sh/helm-v3.8.2-linux-$(if [[ "$TAR
     rmdir ./linux-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
     rm ./helm.tar.gz
 
-RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v0.36.10/terragrunt_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
+RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/download/v${TERRAGRUNT_VERSION}/terragrunt_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi) && \
     chmod +x ./terragrunt && \
     sudo mv ./terragrunt /usr/bin/terragrunt
 
