@@ -111,7 +111,7 @@ RUN wget -q -O ./yq $(wget -q -O - https://api.github.com/repos/mikefarah/yq/rel
     chmod +x ./yq && \
     sudo mv ./yq /usr/bin/yq
 
-RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.16.1 | jq -r --arg NAME "yq_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)" '.assets[] | select(.name == $NAME) | .browser_download_url') && \
+RUN wget -q -O ./yq4 $(wget -q -O - https://api.github.com/repos/mikefarah/yq/releases/tags/v4.25.2 | jq -r --arg NAME "yq_linux_$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "amd64"; fi)" '.assets[] | select(.name == $NAME) | .browser_download_url') && \
     chmod +x ./yq4 && \
     sudo mv ./yq4 /usr/bin/yq4
 
