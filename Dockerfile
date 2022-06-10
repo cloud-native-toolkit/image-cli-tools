@@ -12,6 +12,7 @@ RUN apk add --no-cache \
   shadow \
   bash \
   openssl \
+  openssh-keygen \
   ca-certificates \
   perl \
   openvpn \
