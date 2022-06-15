@@ -126,6 +126,10 @@ RUN wget -q -O ./terragrunt https://github.com/gruntwork-io/terragrunt/releases/
     chmod +x ./terragrunt && \
     sudo mv ./terragrunt /usr/bin/terragrunt
 
+RUN wget -q -O ./igc https://github.com/cloud-native-toolkit/ibm-garage-cloud-cli/releases/download/v1.36.0-beta.2/igc-alpine-$(if [[ "$TARGETPLATFORM" == "linux/arm64" ]]; then echo "arm64"; else echo "x64"; fi) && \
+    chmod +x ./igc && \
+    sudo mv ./igc /usr/bin/igc
+
 VOLUME /workspaces
 
 ENTRYPOINT ["/bin/sh"]
