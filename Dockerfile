@@ -5,6 +5,8 @@ ENV OPENSHIFT_CLI_VERSION 4.10
 ENV TERRAFORM_VERSION 1.1.9
 ENV TERRAGRUNT_VERSION 0.36.10
 
+ENV TF_CLI_ARGS="-parallelism=6"
+
 RUN apk add --no-cache \
   curl \
   unzip \
