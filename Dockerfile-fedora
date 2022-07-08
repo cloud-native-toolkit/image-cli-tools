@@ -1,0 +1,30 @@
+ARG TERRAFORM_VERSION=v1.2
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.0.2-fedora
+
+ARG TARGETPLATFORM
+
+ENV TF_CLI_ARGS_apply="-parallelism=6"
+
+## AWS cli
+RUN sudo dnf install -y \
+        python3 \
+        python3-pip \
+    && sudo pip3 install --upgrade pip \
+    && sudo pip3 install awscli \
+    && sudo dnf clean all \
+    && aws --version
+
+## Azure cli
+RUN sudo dnf install -y gcc musl-devel python3-devel libffi-devel openssl-devel cargo make python3 python3-pip \
+    && sudo pip3 install --upgrade pip \
+    && sudo pip3 install azure-cli \
+    && sudo dnf clean all \
+    && az --version
+
+# Install the ibmcloud cli
+RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
+    ibmcloud plugin install container-service -f && \
+    ibmcloud plugin install container-registry -f && \
+    ibmcloud plugin install observe-service -f && \
+    if [[ "$TARGETPLATFORM" != "linux/arm64" ]]; then ibmcloud plugin install vpc-infrastructure -f; fi && \
+    ibmcloud config --check-version=false
