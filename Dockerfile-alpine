@@ -27,7 +27,8 @@ RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
     ibmcloud plugin install container-registry -f && \
     ibmcloud plugin install observe-service -f && \
     if [[ "$TARGETPLATFORM" != "linux/arm64" ]]; then ibmcloud plugin install vpc-infrastructure -f; fi && \
-    ibmcloud config --check-version=false
+    ibmcloud config --check-version=false && \
+    chmod -R g=u ${HOME}
 
 WORKDIR ${HOME}
 
