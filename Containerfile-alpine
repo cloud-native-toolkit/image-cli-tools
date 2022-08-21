@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.4.0-alpine
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.4.1-alpine
 
 ARG TARGETPLATFORM
 
