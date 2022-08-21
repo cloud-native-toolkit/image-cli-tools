@@ -15,11 +15,11 @@ RUN sudo dnf install -y \
     && aws --version
 
 ## Azure cli
-RUN sudo dnf install -y gcc musl-devel python3-devel libffi-devel openssl-devel cargo make python3 python3-pip \
-    && sudo pip3 install --upgrade pip \
-    && sudo pip3 install azure-cli \
-    && sudo dnf clean all \
-    && az --version
+RUN sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc && \
+    sudo dnf install -y https://packages.microsoft.com/config/rhel/8/packages-microsoft-prod.rpm && \
+    sudo dnf install -y azure-cli && \
+    sudo dnf clean all && \
+    az --version
 
 # Install the ibmcloud cli
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
