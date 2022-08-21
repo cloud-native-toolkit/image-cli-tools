@@ -126,7 +126,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile-${{ matrix.base }}
+          file: Containerfile-${{ matrix.base }}
           build-args: |
             TERRAFORM_VERSION=${{ matrix.terraform }}
           push: ${{ github.event_name != 'pull_request' }}
