@@ -133,3 +133,23 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: ${{ steps.cntk-meta.outputs.tags }}
           labels: ${{ steps.cntk-meta.outputs.labels }}
+
+  notify:
+    needs: ["build"]
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'pull_request' }}
+
+    strategy:
+      matrix:
+        repo:
+          - cloud-native-toolkit/image-github-terraform-runner
+          - cloud-native-toolkit/image-cli-tools-web-terminal
+
+    steps:
+      - name: Repository dispatch ${{ matrix.repo }}
+        uses: cloud-native-toolkit/action-repository-dispatch@main
+        with:
+          notifyRepo: ${{ matrix.repo }}
+          eventType: released
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN }}
