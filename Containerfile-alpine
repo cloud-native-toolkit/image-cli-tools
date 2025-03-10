@@ -1,37 +1,35 @@
-ARG TERRAFORM_VERSION=v1.2
-FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v1.6.1-alpine
+ARG TERRAFORM_VERSION=v1.9
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v2.0.0-alpine
 
 ARG TARGETPLATFORM
 
 ENV TF_CLI_ARGS_apply="-parallelism=6"
 
+USER root
+
 ## AWS cli
-RUN sudo apk add --no-cache \
+RUN apk add --no-cache \
         python3 \
         py3-pip \
-    && sudo pip3 install --upgrade pip \
-    && sudo pip3 install awscli \
-    && sudo rm -rf /var/cache/apk/* \
+    && pip3 install --upgrade pip \
+    && pip3 install awscli \
+    && rm -rf /var/cache/apk/* \
     && aws --version
 
 ## Azure cli
-RUN sudo apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make python3 py3-pip \
-    && sudo pip3 install --upgrade pip \
-    && sudo pip3 install azure-cli \
-    && sudo rm -rf /var/cache/apk/* \
+RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make python3 py3-pip \
+    && pip3 install --upgrade pip \
+    && pip3 install azure-cli \
+    && rm -rf /var/cache/apk/* \
     && az --version
+
+USER devops
 
 # Install the ibmcloud cli
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
     ibmcloud plugin install container-service -f && \
     ibmcloud plugin install container-registry -f && \
     ibmcloud plugin install observe-service -f && \
-    if [[ "$TARGETPLATFORM" != "linux/arm64" ]]; then ibmcloud plugin install vpc-infrastructure -f; fi && \
+    ibmcloud plugin install vpc-infrastructure -f && \
     ibmcloud config --check-version=false && \
     chmod -R g=u ${HOME}
-
-WORKDIR ${HOME}
-
-VOLUME /workspaces
-
-ENTRYPOINT ["/bin/sh"]

@@ -20,12 +20,13 @@ jobs:
           - alpine
           - fedora
         terraform:
-          - v1.0
-          - v1.1
-          - v1.2
+          - v1.6
+          - v1.7
+          - v1.8
+          - v1.9
 
     env:
-      TERRAFORM_LATEST: "v1.2"
+      TERRAFORM_LATEST: "v1.9"
 
     steps:
       - name: Checkout
