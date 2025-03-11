@@ -28,13 +28,20 @@ RUN dnf install -y \
 
 USER devops
 
+# Azure cli
 RUN pip3 install --break-system-packages azure-cli
 
 # Install the ibmcloud cli
+
+USER root
+
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
     ibmcloud plugin install container-service -f && \
     ibmcloud plugin install container-registry -f && \
     ibmcloud plugin install observe-service -f && \
-    ibmcloud plugin install vpc-infrastructure -f && \
-    ibmcloud config --check-version=false && \
+    ibmcloud plugin install vpc-infrastructure -f
+
+USER devops
+
+RUN ibmcloud config --check-version=false && \
     chmod -R g=u ${HOME}
