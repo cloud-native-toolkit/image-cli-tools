@@ -8,22 +8,27 @@ ENV TF_CLI_ARGS_apply="-parallelism=6"
 USER root
 
 ## AWS cli
-RUN apk add --no-cache \
-        python3 \
-        py3-pip \
-    && pip3 install --upgrade pip \
-    && pip3 install awscli \
-    && rm -rf /var/cache/apk/* \
-    && aws --version
+RUN apk add --no-cache --force-broken-world \
+        aws-cli && \
+    rm -rf /var/cache/apk/*
 
 ## Azure cli
-RUN apk add gcc musl-dev python3-dev libffi-dev openssl-dev cargo make python3 py3-pip \
-    && pip3 install --upgrade pip \
-    && pip3 install azure-cli \
-    && rm -rf /var/cache/apk/* \
-    && az --version
+RUN apk add --no-cache --force-broken-world \
+        python3 \
+        py3-pip \
+        gcc \
+        musl-dev \
+        python3-dev \
+        libffi-dev \
+        openssl-dev \
+        cargo \
+        make && \
+    rm -rf /var/cache/apk/* && \
+    pip3 install --upgrade --break-system-packages pip
 
 USER devops
+
+RUN pip3 install --break-system-packages azure-cli
 
 # Install the ibmcloud cli
 RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh && \
