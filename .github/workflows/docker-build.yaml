@@ -20,12 +20,13 @@ jobs:
           - alpine
           - fedora
         terraform:
-          - v1.0
-          - v1.1
-          - v1.2
+          - v1.6
+          - v1.7
+          - v1.8
+          - v1.9
 
     env:
-      TERRAFORM_LATEST: "v1.2"
+      TERRAFORM_LATEST: "v1.9"
 
     steps:
       - name: Checkout
@@ -86,25 +87,25 @@ jobs:
           fi
           
           echo "Short terraform: ${SHORT_TERRAFORM}"
-          echo "::set-output name=terraform::$SHORT_TERRAFORM"
+          echo "terraform=$SHORT_TERRAFORM" >> $GITHUB_OUTPUT
           
           echo "Short tag enabled: $SHORT_TAG_ENABLED"
-          echo "::set-output name=short-enabled::$SHORT_TAG_ENABLED"
+          echo "short-enabled=$SHORT_TAG_ENABLED" >> $GITHUB_OUTPUT
           
           echo "Release tag: ${RELEASE_TAG}"
-          echo "::set-output name=release-tag::$RELEASE_TAG"
+          echo "release-tag=$RELEASE_TAG" >> $GITHUB_OUTPUT
           
           echo "Release tag enabled: $RELEASE_TAG_ENABLED"
-          echo "::set-output name=release-tag-enabled::$RELEASE_TAG_ENABLED"
+          echo "release-tag-enabled=$RELEASE_TAG_ENABLED" >> $GITHUB_OUTPUT
           
           echo "Release tag short enabled: $RELEASE_TAG_SHORT_ENABLED"
-          echo "::set-output name=release-tag-short-enabled::$RELEASE_TAG_SHORT_ENABLED"
+          echo "release-tag-short-enabled=$RELEASE_TAG_SHORT_ENABLED" >> $GITHUB_OUTPUT
           
           echo "Base enabled: $BASE_ENABLED"
-          echo "::set-output name=base-enabled::$BASE_ENABLED"
+          echo "base-enabled=$BASE_ENABLED" >> $GITHUB_OUTPUT
           
           echo "Latest enabled: $LATEST_ENABLED"
-          echo "::set-output name=latest-enabled::$LATEST_ENABLED"
+          echo "latest-enabled=$LATEST_ENABLED" >> $GITHUB_OUTPUT
 
       - name: Docker CNTK meta ${{ matrix.base }}:${{ matrix.terraform }}
         id: cntk-meta
