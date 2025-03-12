@@ -1,5 +1,5 @@
 ARG TERRAFORM_VERSION=v1.9
-FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v2.0.2-fedora
+FROM quay.io/cloudnativetoolkit/cli-tools-core:${TERRAFORM_VERSION}-v2.0.3-fedora
 
 ARG TARGETPLATFORM
 
